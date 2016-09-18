@@ -1,8 +1,22 @@
+
+
+
 # Mapper
 
 Mapper is a simple Swift library to convert JSON to strongly typed
 objects. One advantage to Mapper over some other libraries is you can
 have immutable properties.
+
+## Fork modifications
+
+This fork includes few modifications to the original project:
+- [Custom Operators](#custom-operators)
+- [Type Inference](#type-inference)
+- [Default Convertibles](#default-convertibles)
+- [Array Initialization](#array-initialization)
+- [Array Parsing](#array-parsing)
+- [Initialization](#initialization)
+
 
 ## Installation
 
@@ -163,8 +177,90 @@ struct User: Mappable {
   }
 }
 ```
-
 See the docstrings and tests for more information and examples.
+
+## Custom Operators
+
+This fork includes a custom operator that allows you to parse the Mapper object super cleanly:
+
+```swift
+import Mapper
+// Conform to the Mappable protocol
+struct User: Mappable {
+  let id: String
+  let photoURL: NSURL?
+
+  // Implement this initializer
+  init(map: Mapper) throws {
+    try id   = map |> "id"
+    photoURL = map |> "avatar_url"
+  }
+}
+
+```
+
+## Type Inference
+
+Because of type inference over the optional type, methods **optionalFrom** and **from** have been merged into the single method **from**.
+
+## Default Convertibles
+
+Many convertibles are now supported in this fork, here is the list of all supported types, in bold are thoses added.
+
+- String
+- Int
+- UInt
+- **Int8**
+- **UInt8**
+- **Int16**
+- **UInt16**
+- **Int32**
+- **UInt32**
+- **Int64**
+- **UInt64**
+- Float
+- Double
+- Bool
+- **NSNumber**
+- NSDictionary
+- NSArray
+- NSURL
+- **NSDate** from a timestamp
+
+## Array Initialization
+
+For consistency reasons, an Array is now initialized just like a object.
+
+```swift
+let users = [User].from(JSON) // Returns a [User]?
+```
+
+## Array Parsing
+
+When parsing an array, the original library doesn't allow you to have a malformed object within the JSON array. It will just return nil. This fork allows the creation of an array and will just omit the malformed objects.
+
+```swift
+struct User: Mappable {
+  let name: String
+  init(map: Mapper) throws {
+    try self.name = map.from("name")
+  }
+}
+let JSON = [["name": "John"], ["firstname": "Bob"]]
+let users = [User].from(JSON) // Returns  1 User object with name John
+```
+If no object can be parsed within the JSON array, this will return an empty array. If the JSON is not array, it will return nil.
+
+## Initialization
+
+When creating an object there is no need any more to parse the initial object into a Dictionary or Array. The library takes care of it and will return nil if an array is passed instead of a dictionary and vice versa.
+
+For instance:
+```swift
+let JSON:AnyObject = ...
+let user = User.from(JSON)    // Returns nil if JSON is not dictionary
+let users = [User].from(JSON) // Returns nil if JSON is not an array
+```
 
 ## Open Radars
 
