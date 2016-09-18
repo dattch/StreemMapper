@@ -54,7 +54,7 @@ final class RawRepresentibleValueTests: XCTestCase {
         struct Test: Mappable {
             let value: Value?
             init(map: Mapper) {
-                self.value = map.optionalFrom("value")
+                self.value = map.from("value")
             }
         }
 
@@ -70,7 +70,7 @@ final class RawRepresentibleValueTests: XCTestCase {
         struct Test: Mappable {
             let value: Value?
             init(map: Mapper) {
-                self.value = map.optionalFrom("value")
+                self.value = map.from("value")
             }
         }
 
@@ -86,7 +86,7 @@ final class RawRepresentibleValueTests: XCTestCase {
         struct Test: Mappable {
             let value: Value?
             init(map: Mapper) {
-                self.value = map.optionalFrom("value")
+                self.value = map.from("value")
             }
         }
 
@@ -102,7 +102,7 @@ final class RawRepresentibleValueTests: XCTestCase {
         struct Test: Mappable {
             let value: Value?
             init(map: Mapper) {
-                self.value = map.optionalFrom(["a", "b"])
+                self.value = map.from(["a", "b"])
             }
         }
 
@@ -118,7 +118,7 @@ final class RawRepresentibleValueTests: XCTestCase {
         struct Test: Mappable {
             let value: Value?
             init(map: Mapper) {
-                self.value = map.optionalFrom(["a", "b"])
+                self.value = map.from(["a", "b"])
             }
         }
 

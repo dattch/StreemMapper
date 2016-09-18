@@ -59,7 +59,7 @@ public struct Mapper {
      - returns: The value for the given field, if it can be converted to the expected type T otherwise nil
      */
     @warn_unused_result
-    public func optionalFrom<T: RawRepresentable>(field: String) -> T? {
+    public func from<T: RawRepresentable>(field: String) -> T? {
         return try? self.from(field)
     }
 
@@ -72,7 +72,7 @@ public struct Mapper {
      - returns: The first non-nil value to be produced from the array of fields, or nil if none exist
      */
     @warn_unused_result
-    public func optionalFrom<T: RawRepresentable>(fields: [String]) -> T? {
+    public func from<T: RawRepresentable>(fields: [String]) -> T? {
         for field in fields {
             if let value: T = try? self.from(field) {
                 return value
@@ -110,6 +110,29 @@ public struct Mapper {
 
         let rawValues = try array.map { try T.RawValue.fromMap($0) }
         return rawValues.flatMap { T(rawValue: $0) ?? defaultValue }
+    }
+    
+    /**
+     Get an array of RawRepresentable values from a field in the the source data.
+     
+     - note: If T.init(rawValue:) fails given the T.RawValue from the array of source data, that value will be
+     replaced by the passed defaultValue, which defaults to nil. The resulting array is flatMapped and
+     all nils are removed. This means that any unrecognized values will be removed or replaced with a
+     default. This ensures backwards compatibility if your source data has keys that your mapping
+     layer doesn't know about yet.
+     - parameter field:        The field to use from the source data
+     - parameter defaultValue: The value to use if the rawValue initializer fails
+     - returns: An array of the RawRepresentable value, with all nils removed, returns nil if cannot be converted
+     */
+    @warn_unused_result
+    public func from<T: RawRepresentable where T.RawValue: Convertible,
+        T.RawValue == T.RawValue.ConvertedType>(field: String, defaultValue: T? = nil) -> [T]?
+    {
+        if let value = try? self.JSONFromField(field), array = value as? [AnyObject] {
+            let rawValues = try? array.map { try T.RawValue.fromMap($0) }
+            return rawValues?.flatMap { T(rawValue: $0) ?? defaultValue }
+        }
+        return nil
     }
 
     // MARK: - T: Mappable
@@ -174,7 +197,7 @@ public struct Mapper {
      - returns: The value for the given field, if it can be converted to the expected type T otherwise nil
      */
     @warn_unused_result
-    public func optionalFrom<T: Mappable>(field: String) -> T? {
+    public func from<T: Mappable>(field: String) -> T? {
         return try? self.from(field)
     }
 
@@ -191,7 +214,7 @@ public struct Mapper {
      - returns: The value for the given field, if it can be converted to the expected type [T]
      */
     @warn_unused_result
-    public func optionalFrom<T: Mappable>(field: String) -> [T]? {
+    public func from<T: Mappable>(field: String) -> [T]? {
         return try? self.from(field)
     }
 
@@ -204,7 +227,7 @@ public struct Mapper {
      - returns: The first non-nil value to be produced from the array of fields, or nil if none exist
      */
     @warn_unused_result
-    public func optionalFrom<T: Mappable>(fields: [String]) -> T? {
+    public func from<T: Mappable>(fields: [String]) -> T? {
         for field in fields {
             if let value: T = try? self.from(field) {
                 return value
@@ -230,25 +253,6 @@ public struct Mapper {
      */
     @warn_unused_result
     public func from<T: Convertible where T == T.ConvertedType>(field: String) throws -> T {
-        return try self.from(field, transformation: T.fromMap)
-    }
-
-    /**
-     Get a Convertible value from a field in the source data
-
-     This transparently converts your types that conform to Convertible to properties on the Mappable type
-
-     - parameter field: The field to retrieve from the source data, can be an empty string to return the
-                        entire data set
-
-     - throws: Any error produced by the custom Convertible implementation
-
-     - note: This function is necessary because swift does not coerce the from that returns T to an optional
-
-     - returns: The value for the given field, if it can be converted to the expected type Optional<T>
-     */
-    @warn_unused_result
-    public func from<T: Convertible where T == T.ConvertedType>(field: String) throws -> T? {
         return try self.from(field, transformation: T.fromMap)
     }
 
@@ -287,7 +291,7 @@ public struct Mapper {
      - returns: The value for the given field, if it can be converted to the expected type T otherwise nil
      */
     @warn_unused_result
-    public func optionalFrom<T: Convertible where T == T.ConvertedType>(field: String) -> T? {
+    public func from<T: Convertible where T == T.ConvertedType>(field: String) -> T? {
         return try? self.from(field, transformation: T.fromMap)
     }
 
@@ -302,7 +306,7 @@ public struct Mapper {
      - returns: The value for the given field, if it can be converted to the expected type [T]
      */
     @warn_unused_result
-    public func optionalFrom<T: Convertible where T == T.ConvertedType>(field: String) -> [T]? {
+    public func from<T: Convertible where T == T.ConvertedType>(field: String) -> [T]? {
         return try? self.from(field)
     }
 
@@ -348,7 +352,7 @@ public struct Mapper {
                 nil if anything throws
      */
     @warn_unused_result
-    public func optionalFrom<U: Convertible, T: Convertible
+    public func from<U: Convertible, T: Convertible
         where U == U.ConvertedType, T == T.ConvertedType>(field: String) -> [U: T]?
     {
         return try? self.from(field)
@@ -363,7 +367,7 @@ public struct Mapper {
      - returns: The first non-nil value to be produced from the array of fields, or nil if none exist
      */
     @warn_unused_result
-    public func optionalFrom<T: Convertible where T == T.ConvertedType>(fields: [String]) -> T? {
+    public func from<T: Convertible where T == T.ConvertedType>(fields: [String]) -> T? {
         for field in fields {
             if let value: T = try? self.from(field) {
                 return value

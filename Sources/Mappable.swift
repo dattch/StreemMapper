@@ -16,7 +16,7 @@ import Foundation
 
         // Attemps to convert the value for the "base_url" key to an NSURL, if it fails
         // it assigns URL to nil
-        URL = map.optionalFrom("base_url")
+        URL = map.from("base_url")
     }
  }
  */
@@ -26,40 +26,36 @@ public protocol Mappable {
      */
     @warn_unused_result
     init(map: Mapper) throws
-
-    /**
-     Convenience method for creating Mappable objects from NSDictionaries
-
-     - parameter JSON: The JSON to create the object from
-
-     - returns: The object if it could be created, nil if creating the object threw an error
-     */
-    @warn_unused_result
-    static func from(JSON: NSDictionary) -> Self?
-
-    /**
-     Convenience method for creating Mappable objects from a NSArray
-
-     - parameter JSON: The JSON to create the objects from
-
-     - returns: An array of the created objects, or nil if creating threw
-     */
-    @warn_unused_result
-    static func from(JSON: NSArray) -> [Self]?
 }
 
-public extension Mappable {
-    @warn_unused_result
-    public static func from(JSON: NSDictionary) -> Self? {
-        return try? self.init(map: Mapper(JSON: JSON))
-    }
 
-    @warn_unused_result
-    public static func from(JSON: NSArray) -> [Self]? {
-        if let array = JSON as? [NSDictionary] {
-            return try? array.map { try self.init(map: Mapper(JSON: $0)) }
+/**
+ Tries to initialize a Mappable object with a JSON object
+ - parameter: JSON Dictionary
+ - returns: The object created or nil, if the JSON is invalid
+ 
+ */
+public extension Mappable{
+    public static func from(JSON: AnyObject) -> Self? {
+        if let inputValue = JSON as? [String:AnyObject]{
+            return try? self.init(map: Mapper(JSON: inputValue))
         }
+        return nil
+    }
+}
 
+/**
+ Maps a json array to an array of desired object
+ 
+ - parameter: JSON array
+ - returns: An array with the desired object, nil if the array cannot be parsed, an empty array if the json dictionary are not valid, will return any object that can be parsed, even if some fail.
+ */
+public extension Array where Element: Mappable{
+    
+    public static func from(JSON: AnyObject) -> [Element]? {
+        if let inputArray = JSON as? [[String:AnyObject]] {
+            return inputArray.map({ try? Element(map: Mapper(JSON: $0))}).flatMap({$0})
+        }
         return nil
     }
 }

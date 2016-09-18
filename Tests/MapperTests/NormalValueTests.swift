@@ -42,7 +42,7 @@ final class NormalValueTests: XCTestCase {
         struct Test: Mappable {
             let string: String
             init(map: Mapper) {
-                self.string = map.optionalFrom("foo") ?? "Hello"
+                self.string = map.from("foo") ?? "Hello"
             }
         }
 

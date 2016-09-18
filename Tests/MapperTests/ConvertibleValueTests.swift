@@ -24,7 +24,7 @@ final class ConvertibleValueTests: XCTestCase {
         struct Test: Mappable {
             let URL: NSURL?
             init(map: Mapper) {
-                self.URL = map.optionalFrom("url")
+                self.URL = map.from("url")
             }
         }
 
@@ -36,7 +36,7 @@ final class ConvertibleValueTests: XCTestCase {
         struct Test: Mappable {
             let URL: NSURL?
             init(map: Mapper) {
-                self.URL = map.optionalFrom("url")
+                self.URL = map.from("url")
             }
         }
 
@@ -60,7 +60,7 @@ final class ConvertibleValueTests: XCTestCase {
         struct Test: Mappable {
             let URLs: [NSURL]?
             init(map: Mapper) {
-                self.URLs = map.optionalFrom("urls")
+                self.URLs = map.from("urls")
             }
         }
 
@@ -72,7 +72,7 @@ final class ConvertibleValueTests: XCTestCase {
         struct Test: Mappable {
             let URLs: [NSURL]?
             init(map: Mapper) {
-                self.URLs = map.optionalFrom("urls")
+                self.URLs = map.from("urls")
             }
         }
 
@@ -96,7 +96,7 @@ final class ConvertibleValueTests: XCTestCase {
         struct Test: Mappable {
             let URLs: [NSURL]?
             init(map: Mapper) {
-                self.URLs = map.optionalFrom("urls")
+                self.URLs = map.from("urls")
             }
         }
 
@@ -108,7 +108,7 @@ final class ConvertibleValueTests: XCTestCase {
         struct Test: Mappable {
             let URL: NSURL?
             init(map: Mapper) {
-                self.URL = map.optionalFrom(["a", "b"])
+                self.URL = map.from(["a", "b"])
             }
         }
 
@@ -120,7 +120,7 @@ final class ConvertibleValueTests: XCTestCase {
         struct Test: Mappable {
             let URL: NSURL?
             init(map: Mapper) {
-                self.URL = map.optionalFrom(["a", "b"])
+                self.URL = map.from(["a", "b"])
             }
         }
 
@@ -146,7 +146,7 @@ final class ConvertibleValueTests: XCTestCase {
             let dictionary: [String: Int]?
 
             init(map: Mapper) throws {
-                self.dictionary = map.optionalFrom("foo")
+                self.dictionary = map.from("foo")
             }
         }
 
@@ -172,7 +172,7 @@ final class ConvertibleValueTests: XCTestCase {
             let dictionary: [String: Int]?
 
             init(map: Mapper) throws {
-                self.dictionary = map.optionalFrom("foo")
+                self.dictionary = map.from("foo")
             }
         }
 

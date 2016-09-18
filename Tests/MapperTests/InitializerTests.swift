@@ -49,7 +49,7 @@ final class InitializerTests: XCTestCase {
             }
         }
 
-        let tests = Test.from([["string": "Hi"], ["string": "Bye"]])
+        let tests = [Test].from([["string": "Hi"], ["string": "Bye"]])
         XCTAssertTrue(tests?.count == 2)
     }
 
@@ -61,8 +61,8 @@ final class InitializerTests: XCTestCase {
             }
         }
 
-        let tests = Test.from([["string": "Hi"], ["nope": "Bye"]])
-        XCTAssertNil(tests)
+        let tests = [Test].from([["string": "Hi"], ["nope": "Bye"]])
+        XCTAssertTrue(tests?.count == 1)
     }
 
     func testCreatingFromInvalidArray() {
@@ -73,7 +73,7 @@ final class InitializerTests: XCTestCase {
             }
         }
 
-        let tests = Test.from(["hi"])
+        let tests = [Test].from(["hi"])
         XCTAssertNil(tests)
     }
 

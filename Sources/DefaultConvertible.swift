@@ -19,19 +19,3 @@ extension DefaultConvertible {
         throw MapperError.ConvertibleError(value: value, type: ConvertedType.self)
     }
 }
-
-// MARK: - Default Conformances
-
-/// These Foundation conformances are acceptable since we already depend on Foundation. No other frameworks
-/// Should be important as part of Mapper for default conformances. Consumers should conform any other common
-/// Types in an extension in their own projects (e.g. `CGFloat`)
-import Foundation
-extension NSDictionary: DefaultConvertible {}
-extension NSArray: DefaultConvertible {}
-
-extension String: DefaultConvertible {}
-extension Int: DefaultConvertible {}
-extension UInt: DefaultConvertible {}
-extension Float: DefaultConvertible {}
-extension Double: DefaultConvertible {}
-extension Bool: DefaultConvertible {}
