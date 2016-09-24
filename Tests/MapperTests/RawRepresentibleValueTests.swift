@@ -240,4 +240,20 @@ final class RawRepresentibleValueTests: XCTestCase {
             XCTFail("Expected no errors, got \(error)")
         }
     }
+    
+    func testOptionalArrayOfValuesInvalidArray() {
+        struct Test: Mappable {
+            let values: [Value]?
+            init(map: Mapper) throws {
+                self.values = map.from("a")
+            }
+        }
+        
+        enum Value: String {
+            case First = "hi"
+        }
+        
+        let test = try! Test(map: Mapper(JSON: ["a": 1]))
+        XCTAssertNil(test.values)
+    }
 }
