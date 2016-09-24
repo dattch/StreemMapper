@@ -10,11 +10,9 @@ have immutable properties.
 ## Fork modifications
 
 This fork includes few modifications to the original project:
-- [Custom Operators](#custom-operators)
-- [Type Inference](#type-inference)
+- [Custom Operator](#custom-operator)
 - [Default Convertibles](#default-convertibles)
-- [Array Initialization](#array-initialization)
-- [Array Parsing](#array-parsing)
+- [Arrays](#arrays)
 - [Initialization](#initialization)
 
 
@@ -179,7 +177,7 @@ struct User: Mappable {
 ```
 See the docstrings and tests for more information and examples.
 
-## Custom Operators
+## Custom Operator
 
 This fork includes a custom operator that allows you to parse the Mapper object super cleanly:
 
@@ -198,10 +196,6 @@ struct User: Mappable {
 }
 
 ```
-
-## Type Inference
-
-Because of type inference over the optional type, methods **optionalFrom** and **from** have been merged into the single method **from**.
 
 ## Default Convertibles
 
@@ -227,7 +221,7 @@ Many convertibles are now supported in this fork, here is the list of all suppor
 - NSURL
 - **NSDate** from a timestamp
 
-## Array Initialization
+## Arrays
 
 For consistency reasons, an Array is now initialized just like a object.
 
@@ -235,9 +229,7 @@ For consistency reasons, an Array is now initialized just like a object.
 let users = [User].from(JSON) // Returns a [User]?
 ```
 
-## Array Parsing
-
-When parsing an array, the original library doesn't allow you to have a malformed object within the JSON array. It will just return nil. This fork allows the creation of an array and will just omit the malformed objects.
+Also when parsing an array, the original library doesn't allow you to have a malformed object within the JSON array. It will just return nil. This fork allows the creation of an array and will just omit the malformed objects.
 
 ```swift
 struct User: Mappable {
@@ -251,6 +243,23 @@ let users = [User].from(JSON) // Returns  1 User object with name John
 ```
 If no object can be parsed within the JSON array, this will return an empty array. If the JSON is not array, it will return nil.
 
+Finally, this fork allows you to parse an optional array of enums, this is especially useful, if you're unsure about the JSON you receive and prefer to return nil or an empty array instead of throwing an exception.
+
+```swift
+enum DaysOfWeek {
+    case Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday
+}
+
+struct User: Mappable {
+  let name: String
+  let availableDays: [DaysOfWeek]?
+  init(map: Mapper) throws {
+    try self.name = map |> "name"
+    availableDays = map |> "available_days" //returns nil if  key is not there
+  }
+}
+```
+
 ## Initialization
 
 When creating an object there is no need any more to parse the initial object into a Dictionary or Array. The library takes care of it and will return nil if an array is passed instead of a dictionary and vice versa.
@@ -261,6 +270,9 @@ let JSON:AnyObject = ...
 let user = User.from(JSON)    // Returns nil if JSON is not dictionary
 let users = [User].from(JSON) // Returns nil if JSON is not an array
 ```
+
+Also, because of type inference over the optional type, methods **optionalFrom** and **from** have been merged into the single method **from**.
+
 
 ## Open Radars
 
