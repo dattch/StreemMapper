@@ -21,7 +21,7 @@ extension NSArray: DefaultConvertible {}
 /**
  NSDate Convertible implementation
  */
-extension NSDate : Convertible{
+extension Date : Convertible{
     
     /**
      Create a NSDate from Mapper
@@ -31,11 +31,11 @@ extension NSDate : Convertible{
      - throws: MapperError.CustomError      if the passed value a String but the NSURL initializer returns nil
      - returns: The date created with the timestamp
      */
-    public static func fromMap(value: AnyObject?) throws -> NSDate {
-        guard let timestamp = value as? NSTimeInterval else {
-            throw MapperError.ConvertibleError(value: value, type: NSTimeInterval.self)
+    public static func fromMap(_ value: Any?) throws -> Date {
+        guard let timestamp = value as? TimeInterval else {
+            throw MapperError.convertibleError(value: value, type: TimeInterval.self)
         }
-        return NSDate(timeIntervalSince1970: timestamp)
+        return Date(timeIntervalSince1970: timestamp)
     }
 }
 
@@ -45,7 +45,7 @@ extension NSDate : Convertible{
 /**
  NSURL Convertible implementation
  */
-extension NSURL: Convertible {
+extension URL: Convertible {
     /**
      Create a NSURL from Mapper
      
@@ -54,16 +54,16 @@ extension NSURL: Convertible {
      - throws: MapperError.CustomError      if the passed value a String but the NSURL initializer returns nil
      - returns: The created NSURL
      */
-    public static func fromMap(value: AnyObject?) throws -> NSURL {
+    public static func fromMap(_ value: Any?) throws -> URL {
         guard let string = value as? String else {
-            throw MapperError.ConvertibleError(value: value, type: String.self)
+            throw MapperError.convertibleError(value: value, type: String.self)
         }
         
-        if let URL = NSURL(string: string) {
+        if let URL = URL(string: string) {
             return URL
         }
         
-        throw MapperError.CustomError(field: nil, message: "'\(string)' is not a valid NSURL")
+        throw MapperError.customError(field: nil, message: "'\(string)' is not a valid NSURL")
     }
 }
 
@@ -81,11 +81,11 @@ extension Int64:Convertible{
      - throws: MapperError.ConvertibleError if the passed value is not a Number
      - returns: The created Int64
      */
-    public static func fromMap(value: AnyObject?) throws -> Int64 {
+    public static func fromMap(_ value: Any?) throws -> Int64 {
         guard let number = value as? NSNumber else {
-            throw MapperError.ConvertibleError(value: value, type: Int64.self)
+            throw MapperError.convertibleError(value: value, type: Int64.self)
         }
-        return number.longLongValue
+        return number.int64Value
     }
 }
 
@@ -101,11 +101,11 @@ extension UInt64:Convertible{
      - throws: MapperError.ConvertibleError if the passed value is not a Number
      - returns: The created UInt64
      */
-    public static func fromMap(value: AnyObject?) throws -> UInt64 {
+    public static func fromMap(_ value: Any?) throws -> UInt64 {
         guard let number = value as? NSNumber else {
-            throw MapperError.ConvertibleError(value: value, type: UInt64.self)
+            throw MapperError.convertibleError(value: value, type: UInt64.self)
         }
-        return number.unsignedLongLongValue
+        return number.uint64Value
     }
 }
 
@@ -121,11 +121,11 @@ extension Int32:Convertible{
      - throws: MapperError.ConvertibleError if the passed value is not a Number
      - returns: The created Int32
      */
-    public static func fromMap(value: AnyObject?) throws -> Int32 {
+    public static func fromMap(_ value: Any?) throws -> Int32 {
         guard let number = value as? NSNumber else {
-            throw MapperError.ConvertibleError(value: value, type: Int32.self)
+            throw MapperError.convertibleError(value: value, type: Int32.self)
         }
-        return number.intValue
+        return number.int32Value
     }
 }
 
@@ -141,11 +141,11 @@ extension UInt32:Convertible{
      - throws: MapperError.ConvertibleError if the passed value is not a Number
      - returns: The created UInt32
      */
-    public static func fromMap(value: AnyObject?) throws -> UInt32 {
+    public static func fromMap(_ value: Any?) throws -> UInt32 {
         guard let number = value as? NSNumber else {
-            throw MapperError.ConvertibleError(value: value, type: UInt32.self)
+            throw MapperError.convertibleError(value: value, type: UInt32.self)
         }
-        return number.unsignedIntValue
+        return number.uint32Value
     }
 }
 
@@ -161,11 +161,11 @@ extension Int16:Convertible{
      - throws: MapperError.ConvertibleError if the passed value is not a Number
      - returns: The created Int16
      */
-    public static func fromMap(value: AnyObject?) throws -> Int16 {
+    public static func fromMap(_ value: Any?) throws -> Int16 {
         guard let number = value as? NSNumber else {
-            throw MapperError.ConvertibleError(value: value, type: Int16.self)
+            throw MapperError.convertibleError(value: value, type: Int16.self)
         }
-        return number.shortValue
+        return number.int16Value
     }
 }
 
@@ -181,11 +181,11 @@ extension UInt16:Convertible{
      - throws: MapperError.ConvertibleError if the passed value is not a Number
      - returns: The created UInt16
      */
-    public static func fromMap(value: AnyObject?) throws -> UInt16 {
+    public static func fromMap(_ value: Any?) throws -> UInt16 {
         guard let number = value as? NSNumber else {
-            throw MapperError.ConvertibleError(value: value, type: UInt16.self)
+            throw MapperError.convertibleError(value: value, type: UInt16.self)
         }
-        return number.unsignedShortValue
+        return number.uint16Value
     }
 }
 
@@ -201,11 +201,11 @@ extension Int8:Convertible{
      - throws: MapperError.ConvertibleError if the passed value is not a Number
      - returns: The created Int8
      */
-    public static func fromMap(value: AnyObject?) throws -> Int8 {
+    public static func fromMap(_ value: Any?) throws -> Int8 {
         guard let number = value as? NSNumber else {
-            throw MapperError.ConvertibleError(value: value, type: Int8.self)
+            throw MapperError.convertibleError(value: value, type: Int8.self)
         }
-        return number.charValue
+        return number.int8Value
     }
 }
 
@@ -221,10 +221,10 @@ extension UInt8:Convertible{
      - throws: MapperError.ConvertibleError if the passed value is not a Number
      - returns: The created UInt8
      */
-    public static func fromMap(value: AnyObject?) throws -> UInt8 {
+    public static func fromMap(_ value: Any?) throws -> UInt8 {
         guard let number = value as? NSNumber else {
-            throw MapperError.ConvertibleError(value: value, type: UInt8.self)
+            throw MapperError.convertibleError(value: value, type: UInt8.self)
         }
-        return number.unsignedCharValue
+        return number.uint8Value
     }
 }
