@@ -6,14 +6,14 @@ final class MappableValueTests: XCTestCase {
         struct Test: Mappable {
             let nest: Nested
             init(map: Mapper) throws {
-                try self.nest = map.from("nest")
+                try self.nest = map.from(field:"nest")
             }
         }
 
         struct Nested: Mappable {
             let string: String
             init(map: Mapper) throws {
-                try self.string = map.from("string")
+                try self.string = map.from(field:"string")
             }
         }
 
@@ -25,14 +25,14 @@ final class MappableValueTests: XCTestCase {
         struct Test: Mappable {
             let nests: [Nested]
             init(map: Mapper) throws {
-                try self.nests = map.from("nests")
+                try self.nests = map.from(field:"nests")
             }
         }
 
         struct Nested: Mappable {
             let string: String
             init(map: Mapper) throws {
-                try self.string = map.from("string")
+                try self.string = map.from(field:"string")
             }
         }
 
@@ -44,7 +44,7 @@ final class MappableValueTests: XCTestCase {
         struct Test: Mappable {
             let nest: Nested?
             init(map: Mapper) {
-                self.nest = map.from("foo")
+                self.nest = map.from(field:"foo")
             }
         }
 
@@ -61,14 +61,14 @@ final class MappableValueTests: XCTestCase {
         struct Test: Mappable {
             let nests: [Nested]
             init(map: Mapper) throws {
-                try self.nests = map.from("nests")
+                try self.nests = map.from(field:"nests")
             }
         }
 
         struct Nested: Mappable {
             let string: String
             init(map: Mapper) throws {
-                try self.string = map.from("string")
+                try self.string = map.from(field:"string")
             }
         }
 
@@ -80,14 +80,14 @@ final class MappableValueTests: XCTestCase {
         struct Test: Mappable {
             let nests: [Nested]?
             init(map: Mapper) {
-                self.nests = map.from("nests")
+                self.nests = map.from(field:"nests")
             }
         }
 
         struct Nested: Mappable {
             let string: String
             init(map: Mapper) throws {
-                try self.string = map.from("string")
+                try self.string = map.from(field:"string")
             }
         }
 
@@ -99,14 +99,14 @@ final class MappableValueTests: XCTestCase {
         struct Test: Mappable {
             let nests: [Nested]
             init(map: Mapper) throws {
-                try self.nests = map.from("nests")
+                try self.nests = map.from(field:"nests")
             }
         }
 
         struct Nested: Mappable {
             let string: String
             init(map: Mapper) throws {
-                try self.string = map.from("string")
+                try self.string = map.from(field:"string")
             }
         }
 
@@ -118,14 +118,14 @@ final class MappableValueTests: XCTestCase {
         struct Test: Mappable {
             let nests: [Nested]?
             init(map: Mapper) {
-                self.nests = map.from("nests")
+                self.nests = map.from(field:"nests")
             }
         }
 
         struct Nested: Mappable {
             let string: String
             init(map: Mapper) throws {
-                try self.string = map.from("string")
+                try self.string = map.from(field:"string")
             }
         }
 
@@ -137,14 +137,14 @@ final class MappableValueTests: XCTestCase {
         struct Test: Mappable {
             let nest: Nested?
             init(map: Mapper) {
-                self.nest = map.from(["a", "b"])
+                self.nest = map.from(fields:["a", "b"])
             }
         }
 
         struct Nested: Mappable {
             let string: String
             init(map: Mapper) throws {
-                try self.string = map.from("string")
+                try self.string = map.from(field:"string")
             }
         }
 
@@ -156,7 +156,7 @@ final class MappableValueTests: XCTestCase {
         struct Test: Mappable {
             let nest: Nested?
             init(map: Mapper) {
-                self.nest = map.from(["a", "b"])
+                self.nest = map.from(fields:["a", "b"])
             }
         }
 
@@ -164,7 +164,7 @@ final class MappableValueTests: XCTestCase {
             init(map: Mapper) throws {}
         }
 
-        if let test = Test.from([:]) {
+        if let test = Test.from(JSON: [:]) {
             XCTAssertNil(test.nest)
         } else {
             XCTFail("Failed to create Test")

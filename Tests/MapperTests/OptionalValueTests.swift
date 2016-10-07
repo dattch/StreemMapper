@@ -6,7 +6,7 @@ final class OptionalValueTests: XCTestCase {
         final class Test: Mappable {
             let string: String
             required init(map: Mapper) {
-                self.string = map.from("string") ?? ""
+                self.string = map.from(field:"string") ?? ""
             }
         }
 
@@ -18,7 +18,7 @@ final class OptionalValueTests: XCTestCase {
         struct Test: Mappable {
             let string: String?
             init(map: Mapper) {
-                self.string = map.from("foo")
+                self.string = map.from(field:"foo")
             }
         }
 
@@ -30,7 +30,7 @@ final class OptionalValueTests: XCTestCase {
         struct Test: Mappable {
             let string: [String]?
             init(map: Mapper) {
-                self.string = map.from("foo")
+                self.string = map.from(field:"foo")
             }
         }
 
@@ -42,7 +42,7 @@ final class OptionalValueTests: XCTestCase {
         struct Test: Mappable {
             let strings: [String]?
             init(map: Mapper) {
-                self.strings = map.from("strings")
+                self.strings = map.from(field:"strings")
             }
         }
 
@@ -54,15 +54,11 @@ final class OptionalValueTests: XCTestCase {
         struct Test: Mappable {
             let string: String?
             init(map: Mapper) throws {
-                self.string = map.from([
-                    "a",
-                    "b",
-                    "c",
-                ])
+                self.string = map.from(fields:["a","b","c",])
             }
         }
 
-        let test = Test.from(["b": "foo"])
+        let test = Test.from(JSON: ["b": "foo"])
         XCTAssertTrue(test?.string == "foo")
     }
 
@@ -70,7 +66,7 @@ final class OptionalValueTests: XCTestCase {
         struct Test: Mappable {
             let string: String?
             init(map: Mapper) {
-                self.string = map.from(["a", "b"])
+                self.string = map.from(fields:["a", "b"])
             }
         }
 

@@ -6,7 +6,7 @@ final class RawRepresentibleValueTests: XCTestCase {
         struct Test: Mappable {
             let suit: Suits
             init(map: Mapper) throws {
-                try self.suit = map.from("suit")
+                try self.suit = map.from(field:"suit")
             }
         }
 
@@ -22,7 +22,7 @@ final class RawRepresentibleValueTests: XCTestCase {
         struct Test: Mappable {
             let value: Value
             init(map: Mapper) throws {
-                try self.value = map.from("value")
+                try self.value = map.from(field:"value")
             }
         }
 
@@ -38,7 +38,7 @@ final class RawRepresentibleValueTests: XCTestCase {
         struct Test: Mappable {
             let value: Value
             init(map: Mapper) throws {
-                try self.value = map.from("value")
+                try self.value = map.from(field:"value")
             }
         }
 
@@ -54,7 +54,7 @@ final class RawRepresentibleValueTests: XCTestCase {
         struct Test: Mappable {
             let value: Value?
             init(map: Mapper) {
-                self.value = map.from("value")
+                self.value = map.from(field:"value")
             }
         }
 
@@ -70,7 +70,7 @@ final class RawRepresentibleValueTests: XCTestCase {
         struct Test: Mappable {
             let value: Value?
             init(map: Mapper) {
-                self.value = map.from("value")
+                self.value = map.from(field:"value")
             }
         }
 
@@ -86,7 +86,7 @@ final class RawRepresentibleValueTests: XCTestCase {
         struct Test: Mappable {
             let value: Value?
             init(map: Mapper) {
-                self.value = map.from("value")
+                self.value = map.from(field:"value")
             }
         }
 
@@ -102,7 +102,7 @@ final class RawRepresentibleValueTests: XCTestCase {
         struct Test: Mappable {
             let value: Value?
             init(map: Mapper) {
-                self.value = map.from(["a", "b"])
+                self.value = map.from(fields:["a", "b"])
             }
         }
 
@@ -118,7 +118,7 @@ final class RawRepresentibleValueTests: XCTestCase {
         struct Test: Mappable {
             let value: Value?
             init(map: Mapper) {
-                self.value = map.from(["a", "b"])
+                self.value = map.from(fields:["a", "b"])
             }
         }
 
@@ -134,7 +134,7 @@ final class RawRepresentibleValueTests: XCTestCase {
         struct Test: Mappable {
             let value: [Value]
             init(map: Mapper) throws {
-                self.value = try map.from("a")
+                self.value = try map.from(field:"a")
             }
         }
 
@@ -156,7 +156,7 @@ final class RawRepresentibleValueTests: XCTestCase {
         struct Test: Mappable {
             let values: [Value]
             init(map: Mapper) throws {
-                self.values = try map.from("a")
+                self.values = try map.from(field:"a")
             }
         }
 
@@ -180,7 +180,7 @@ final class RawRepresentibleValueTests: XCTestCase {
         struct Test: Mappable {
             let values: [Value]
             init(map: Mapper) throws {
-                self.values = try map.from("a")
+                self.values = try map.from(field:"a")
             }
         }
 
@@ -203,7 +203,7 @@ final class RawRepresentibleValueTests: XCTestCase {
         struct Test: Mappable {
             let values: [Value]
             init(map: Mapper) throws {
-                self.values = try map.from("a")
+                self.values = try map.from(field:"a")
             }
         }
 
@@ -224,7 +224,7 @@ final class RawRepresentibleValueTests: XCTestCase {
         struct Test: Mappable {
             let values: [Value]
             init(map: Mapper) throws {
-                self.values = try map.from("a", defaultValue: .First)
+                self.values = try map.from(field:"a", defaultValue: .First)
             }
         }
 
@@ -245,7 +245,7 @@ final class RawRepresentibleValueTests: XCTestCase {
         struct Test: Mappable {
             let values: [Value]?
             init(map: Mapper) throws {
-                self.values = map.from("a")
+                self.values = map.from(field:"a")
             }
         }
         

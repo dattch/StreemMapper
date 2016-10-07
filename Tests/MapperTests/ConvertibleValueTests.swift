@@ -1,28 +1,8 @@
 import Mapper
 import XCTest
-fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l < r
-  case (nil, _?):
-    return true
-  default:
-    return false
-  }
-}
-
-fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l > r
-  default:
-    return rhs < lhs
-  }
-}
-
 
 private struct Foo: Convertible {
-    static func fromMap(_ value: Any?) throws -> Foo {
+    static func from(value: Any?) throws -> Foo {
         return Foo()
     }
 }
@@ -32,7 +12,7 @@ final class ConvertibleValueTests: XCTestCase {
         struct Test: Mappable {
             let URL: Foundation.URL
             init(map: Mapper) throws {
-                try self.URL = map.from("url")
+                try self.URL = map.from(field:"url")
             }
         }
 
@@ -44,7 +24,7 @@ final class ConvertibleValueTests: XCTestCase {
         struct Test: Mappable {
             let URL: Foundation.URL?
             init(map: Mapper) {
-                self.URL = map.from("url")
+                self.URL = map.from(field:"url")
             }
         }
 
@@ -56,7 +36,7 @@ final class ConvertibleValueTests: XCTestCase {
         struct Test: Mappable {
             let URL: Foundation.URL?
             init(map: Mapper) {
-                self.URL = map.from("url")
+                self.URL = map.from(field:"url")
             }
         }
 
@@ -68,7 +48,7 @@ final class ConvertibleValueTests: XCTestCase {
         struct Test: Mappable {
             let URLs: [URL]
             init(map: Mapper) throws {
-                try self.URLs = map.from("urls")
+                try self.URLs = map.from(field:"urls")
             }
         }
 
@@ -80,7 +60,7 @@ final class ConvertibleValueTests: XCTestCase {
         struct Test: Mappable {
             let URLs: [URL]?
             init(map: Mapper) {
-                self.URLs = map.from("urls")
+                self.URLs = map.from(field:"urls")
             }
         }
 
@@ -92,7 +72,7 @@ final class ConvertibleValueTests: XCTestCase {
         struct Test: Mappable {
             let URLs: [URL]?
             init(map: Mapper) {
-                self.URLs = map.from("urls")
+                self.URLs = map.from(field:"urls")
             }
         }
 
@@ -104,7 +84,7 @@ final class ConvertibleValueTests: XCTestCase {
         struct Test: Mappable {
             let URLs: [URL]
             init(map: Mapper) throws {
-                try self.URLs = map.from("urls")
+                try self.URLs = map.from(field:"urls")
             }
         }
 
@@ -116,7 +96,7 @@ final class ConvertibleValueTests: XCTestCase {
         struct Test: Mappable {
             let URLs: [URL]?
             init(map: Mapper) {
-                self.URLs = map.from("urls")
+                self.URLs = map.from(field:"urls")
             }
         }
 
@@ -128,7 +108,7 @@ final class ConvertibleValueTests: XCTestCase {
         struct Test: Mappable {
             let URL: Foundation.URL?
             init(map: Mapper) {
-                self.URL = map.from(["a", "b"])
+                self.URL = map.from(fields:["a", "b"])
             }
         }
 
@@ -140,7 +120,7 @@ final class ConvertibleValueTests: XCTestCase {
         struct Test: Mappable {
             let URL: Foundation.URL?
             init(map: Mapper) {
-                self.URL = map.from(["a", "b"])
+                self.URL = map.from(fields:["a", "b"])
             }
         }
 
@@ -153,11 +133,11 @@ final class ConvertibleValueTests: XCTestCase {
             let dictionary: [String: Int]
 
             init(map: Mapper) throws {
-                try self.dictionary = map.from("foo")
+                try self.dictionary = map.from(field:"foo")
             }
         }
 
-        let test = Test.from(["foo": ["key": 1]])
+        let test = Test.from(JSON: ["foo": ["key": 1]])
         XCTAssertTrue(test?.dictionary["key"] == 1)
     }
 
@@ -166,11 +146,11 @@ final class ConvertibleValueTests: XCTestCase {
             let dictionary: [String: Int]?
 
             init(map: Mapper) throws {
-                self.dictionary = map.from("foo")
+                self.dictionary = map.from(field:"foo")
             }
         }
 
-        let test = Test.from(["foo": ["key": 1]])
+        let test = Test.from(JSON: ["foo": ["key": 1]])
         XCTAssertTrue(test?.dictionary?["key"] == 1)
     }
 
@@ -179,12 +159,12 @@ final class ConvertibleValueTests: XCTestCase {
             let dictionary: [String: Foo]
 
             init(map: Mapper) throws {
-                try self.dictionary = map.from("foo")
+                try self.dictionary = map.from(field:"foo")
             }
         }
 
-        let test = Test.from(["foo": ["key": "value"]])
-        XCTAssertTrue(test?.dictionary.count > 0)
+        let test = Test.from(JSON: ["foo": ["key": "value"]])
+        XCTAssertTrue(test!.dictionary.count > 0)
     }
 
     func testOptionalDictionaryConvertibleNil() {
@@ -192,7 +172,7 @@ final class ConvertibleValueTests: XCTestCase {
             let dictionary: [String: Int]?
 
             init(map: Mapper) throws {
-                self.dictionary = map.from("foo")
+                self.dictionary = map.from(field:"foo")
             }
         }
 
@@ -209,11 +189,11 @@ final class ConvertibleValueTests: XCTestCase {
             let dictionary: [String: Int]
 
             init(map: Mapper) throws {
-                try self.dictionary = map.from("foo")
+                try self.dictionary = map.from(field:"foo")
             }
         }
 
-        let test = Test.from(["foo": ["key": 1, "key2": "not int"]])
+        let test = Test.from(JSON: ["foo": ["key": 1, "key2": "not int"]])
         XCTAssertNil(test)
     }
 
@@ -222,11 +202,11 @@ final class ConvertibleValueTests: XCTestCase {
             let dictionary: [String: Int]
 
             init(map: Mapper) throws {
-                try self.dictionary = map.from("foo")
+                try self.dictionary = map.from(field:"foo")
             }
         }
 
-        let test = Test.from(["foo": "not a dictionary"])
+        let test = Test.from(JSON: ["foo": "not a dictionary"])
         XCTAssertNil(test)
     }
 }

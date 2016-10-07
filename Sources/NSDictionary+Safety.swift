@@ -1,7 +1,7 @@
 import Foundation
 
 extension NSDictionary {
-    func safeValueForKeyPath(_ keyPath: String) -> Any? {
+    func safeValueWith(keyPath: String) -> Any? {
         var object: Any? = self
         var keys = keyPath.characters.split(separator: ".").map(String.init)
 

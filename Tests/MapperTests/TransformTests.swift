@@ -11,8 +11,8 @@ private struct Example: Mappable, Equatable {
     }
 
     init(map: Mapper) throws {
-        try key = map.from("string")
-        try value = map.from("value")
+        try key = map.from(field:"string")
+        try value = map.from(field:"value")
     }
 }
 
@@ -26,7 +26,7 @@ final class TransformTests: XCTestCase {
             let dictionary: [String: Example]
 
             init(map: Mapper) throws {
-                try dictionary = map.from("examples",
+                try dictionary = map.from(field:"examples",
                     transformation: Transform.toDictionary(key: { $0.key }))
             }
         }
@@ -45,7 +45,7 @@ final class TransformTests: XCTestCase {
             ]
         ]
 
-        let test = Test.from(JSON)
+        let test = Test.from(JSON: JSON)
         XCTAssertTrue(test?.dictionary.count == 2)
         XCTAssertTrue(test?.dictionary["hi"] == Example(key: "hi", value: 1))
         XCTAssertTrue(test?.dictionary["bye"] == Example(key: "bye", value: 2))
@@ -56,7 +56,7 @@ final class TransformTests: XCTestCase {
             let dictionary: [String: Example]
 
             init(map: Mapper) throws {
-                try dictionary = map.from("examples",
+                try dictionary = map.from(field:"examples",
                     transformation: Transform.toDictionary(key: { $0.key }))
             }
         }
@@ -77,7 +77,7 @@ final class TransformTests: XCTestCase {
             let dictionary: [String: Example]
 
             init(map: Mapper) throws {
-                try dictionary = map.from("examples",
+                try dictionary = map.from(field:"examples",
                     transformation: Transform.toDictionary(key: { $0.key }))
             }
         }
@@ -95,7 +95,7 @@ final class TransformTests: XCTestCase {
     func testMissingFieldErrorFromTransformation() {
         do {
             let map = Mapper(JSON: [:])
-            let _: String = try map.from("foo", transformation: { _ in return "hi" })
+            let _: String = try map.from(field:"foo", transformation: { _ in return "hi" })
             XCTFail()
         } catch MapperError.missingFieldError(let field) {
             XCTAssert(field == "foo")

@@ -40,5 +40,5 @@ public protocol Convertible {
      - returns: The successfully created value from the given input
      */
     
-    static func fromMap(_ value: Any?) throws -> ConvertedType
+    static func from(value: Any?) throws -> ConvertedType
 }

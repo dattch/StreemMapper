@@ -36,7 +36,7 @@ public protocol Mappable {
  
  */
 public extension Mappable{
-    public static func from(_ JSON: Any) -> Self? {
+    public static func from(JSON: Any) -> Self? {
         if let inputValue = JSON as? [String:Any]{
             return try? self.init(map: Mapper(JSON: inputValue as NSDictionary))
         }
@@ -52,7 +52,7 @@ public extension Mappable{
  */
 public extension Array where Element: Mappable{
     
-    public static func from(_ JSON: Any) -> [Element]? {
+    public static func from(JSON: Any) -> [Element]? {
         if let inputArray = JSON as? [[String:Any]] {
             return inputArray.map({ try? Element(map: Mapper(JSON: $0 as NSDictionary))}).flatMap({$0})
         }

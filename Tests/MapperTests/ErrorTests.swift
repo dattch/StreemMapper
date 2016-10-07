@@ -9,7 +9,7 @@ final class ErrorTests: XCTestCase {
 
         do {
             let map = Mapper(JSON: ["field": 1])
-            let _: Test = try map.from("field")
+            let _: Test = try map.from(field:"field")
             XCTFail()
         } catch MapperError.typeMismatchError(let field, let value, let type) {
             XCTAssert(field == "field")
@@ -27,7 +27,7 @@ final class ErrorTests: XCTestCase {
 
         do {
             let map = Mapper(JSON: ["suit": "hearts"])
-            let _: Suit = try map.from("suit")
+            let _: Suit = try map.from(field:"suit")
             XCTFail()
         } catch MapperError.invalidRawValueError(let field, let value, let type) {
             XCTAssert(field == "suit")
@@ -41,7 +41,7 @@ final class ErrorTests: XCTestCase {
     func testConvertibleError() {
         do {
             let map = Mapper(JSON: ["url": 1])
-            let _: URL = try map.from("url")
+            let _: URL = try map.from(field:"url")
             XCTFail()
         } catch MapperError.convertibleError(let value, let type) {
             XCTAssert(value as? Int == 1)
@@ -54,7 +54,7 @@ final class ErrorTests: XCTestCase {
     func testMissingField() {
         do {
             let map = Mapper(JSON: [:])
-            let _: String = try map.from("string")
+            let _: String = try map.from(field:"string")
             XCTFail()
         } catch MapperError.missingFieldError(let field) {
             XCTAssert(field == "string")
@@ -66,7 +66,7 @@ final class ErrorTests: XCTestCase {
     func testCustomError() {
         do {
             let map = Mapper(JSON: ["string": "hi"])
-            _ = try map.from("string", transformation: { _ in
+            _ = try map.from(field:"string", transformation: { _ in
                 throw MapperError.customError(field: "string", message: "hi")
             })
 

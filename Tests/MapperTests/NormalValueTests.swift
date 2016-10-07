@@ -6,7 +6,7 @@ final class NormalValueTests: XCTestCase {
         struct Test: Mappable {
             let string: String
             init(map: Mapper) throws {
-                try self.string = map.from("string")
+                try self.string = map.from(field:"string")
             }
         }
 
@@ -18,7 +18,7 @@ final class NormalValueTests: XCTestCase {
         struct Test: Mappable {
             let string: TimeInterval
             init(map: Mapper) throws {
-                try self.string = map.from("time")
+                try self.string = map.from(field:"time")
             }
         }
 
@@ -30,7 +30,7 @@ final class NormalValueTests: XCTestCase {
         struct Test: Mappable {
             let string: String
             init(map: Mapper) throws {
-                try self.string = map.from("foo")
+                try self.string = map.from(field:"foo")
             }
         }
 
@@ -42,7 +42,7 @@ final class NormalValueTests: XCTestCase {
         struct Test: Mappable {
             let string: String
             init(map: Mapper) {
-                self.string = map.from("foo") ?? "Hello"
+                self.string = map.from(field:"foo") ?? "Hello"
             }
         }
 
@@ -54,7 +54,7 @@ final class NormalValueTests: XCTestCase {
         struct Test: Mappable {
             let strings: [String]
             init(map: Mapper) throws {
-                try self.strings = map.from("strings")
+                try self.strings = map.from(field:"strings")
             }
         }
 
@@ -66,7 +66,7 @@ final class NormalValueTests: XCTestCase {
         struct Test: Mappable {
             let JSON: NSDictionary
             init(map: Mapper) throws {
-                try self.JSON = map.from("")
+                try self.JSON = map.from(field:"")
             }
         }
 
@@ -80,7 +80,7 @@ final class NormalValueTests: XCTestCase {
         struct Test: Mappable {
             let string: String
             init(map: Mapper) throws {
-                try self.string = map.from("foo.bar")
+                try self.string = map.from(field:"foo.bar")
             }
         }
 
@@ -92,7 +92,7 @@ final class NormalValueTests: XCTestCase {
         struct Test: Mappable {
             let strings: [String]
             init(map: Mapper) throws {
-                try self.strings = map.from("strings")
+                try self.strings = map.from(field:"strings")
             }
         }
 
@@ -104,7 +104,7 @@ final class NormalValueTests: XCTestCase {
         struct Test: Mappable {
             let string: String?
             init(map: Mapper) throws {
-                try self.string = map.from("string")
+                self.string = map.from(field:"string")
             }
         }
 
@@ -116,7 +116,7 @@ final class NormalValueTests: XCTestCase {
         struct Test: Mappable {
             let string: String
             init(map: Mapper) throws {
-                try self.string = map.from("user.phone")
+                try self.string = map.from(field:"user.phone")
             }
         }
 

@@ -7,7 +7,7 @@ private struct TestExtension {
 
 extension TestExtension: Mappable {
     init(map: Mapper) throws {
-        try self.string = map.from("string")
+        try self.string = map.from(field:"string")
     }
 }
 
@@ -19,11 +19,11 @@ final class InitializerTests: XCTestCase {
         struct Test: Mappable {
             let string: String
             init(map: Mapper) throws {
-                try self.string = map.from("foo")
+                try self.string = map.from(field:"foo")
             }
         }
 
-        let test = Test.from([:])
+        let test = Test.from(JSON: [:])
         XCTAssertNil(test)
     }
 
@@ -31,11 +31,11 @@ final class InitializerTests: XCTestCase {
         struct Test: Mappable {
             let string: String
             init(map: Mapper) throws {
-                try self.string = map.from("string")
+                try self.string = map.from(field:"string")
             }
         }
 
-        let test = Test.from(["string": "Hi"])
+        let test = Test.from(JSON: ["string": "Hi"])
         XCTAssertTrue(test?.string == "Hi")
     }
 
@@ -45,11 +45,11 @@ final class InitializerTests: XCTestCase {
         struct Test: Mappable {
             let string: String
             init(map: Mapper) throws {
-                try self.string = map.from("string")
+                try self.string = map.from(field:"string")
             }
         }
 
-        let tests = [Test].from([["string": "Hi"], ["string": "Bye"]])
+        let tests = [Test].from(JSON: [["string": "Hi"], ["string": "Bye"]])
         XCTAssertTrue(tests?.count == 2)
     }
 
@@ -57,11 +57,11 @@ final class InitializerTests: XCTestCase {
         struct Test: Mappable {
             let string: String
             init(map: Mapper) throws {
-                try self.string = map.from("string")
+                try self.string = map.from(field:"string")
             }
         }
 
-        let tests = [Test].from([["string": "Hi"], ["nope": "Bye"]])
+        let tests = [Test].from(JSON: [["string": "Hi"], ["nope": "Bye"]])
         XCTAssertTrue(tests?.count == 1)
     }
 
@@ -69,18 +69,18 @@ final class InitializerTests: XCTestCase {
         struct Test: Mappable {
             let string: String
             init(map: Mapper) throws {
-                try self.string = map.from("string")
+                try self.string = map.from(field:"string")
             }
         }
 
-        let tests = [Test].from(["hi"])
+        let tests = [Test].from(JSON: ["hi"])
         XCTAssertNil(tests)
     }
 
     // MARK: Testing http://www.openradar.me/23376350
 
     func testCreatingWithConformanceInExtension() {
-        let test = TestExtension.from(["string": "Hi"])
+        let test = TestExtension.from(JSON: ["string": "Hi"])
         XCTAssertTrue(test?.string == "Hi")
     }
 }
