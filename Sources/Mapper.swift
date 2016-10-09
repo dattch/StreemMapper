@@ -376,6 +376,37 @@ public struct Mapper {
 
         return nil
     }
+    
+    /**
+     Get a Date from the given field in the source data
+     
+     - parameter field: The field to retrieve from the source data
+     - parameter format: A string to pass to format the date
+     - throws: MapperError.missingFieldError  if the field doesn't exist
+     - throws: MapperError.convertibleError if field is not a string or doesn't match the format
+     initializer fails with the passed rawValue
+     
+     - returns: The date for the given field
+     */
+    public func from(field:String, format:String) throws -> Date {
+        let value = try self.JSONFrom(field:field)
+        return try Date.from(value: value, format: format)
+    }
+    
+    
+    /**
+     Get a Date from the given field in the source data
+     
+     - parameter field: The field to retrieve from the source data
+     - parameter format: A string to pass to format the date
+     initializer fails with the passed rawValue
+     
+     - returns: The date for the given field, or nil if field is not a string or doesn't match the format
+     */
+    public func from(field:String, format:String) -> Date? {
+        return try? self.from(field: field, format: format)
+    }
+    
 
     // MARK: - Custom Transformation
 

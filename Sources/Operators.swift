@@ -1,3 +1,5 @@
+import Foundation
+
 precedencegroup ParsingPrecedence {
     associativity: left
     higherThan: NilCoalescingPrecedence
@@ -48,6 +50,14 @@ public func |> <U:Convertible, T:Convertible>(map: Mapper, key: String) -> [U:T]
 
 public func |> <U:Convertible, T:Convertible>(map: Mapper, key: String) throws -> [U:T] where U == U.ConvertedType, T == T.ConvertedType{
     return try map.from(field:key)
+}
+
+public func |> (map: Mapper, keyFormat:(String,String)) throws -> Date {
+    return try map.from(field: keyFormat.0, format: keyFormat.1)
+}
+
+public func |> (map: Mapper, keyFormat:(String,String)) -> Date? {
+    return map.from(field: keyFormat.0, format: keyFormat.1)
 }
 
 

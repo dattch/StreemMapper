@@ -27,8 +27,7 @@ extension Date : Convertible{
      Create a NSDate from Mapper
      
      - parameter value: The timestamp passed from Mapper
-     - throws: MapperError.ConvertibleError if the passed value is not a String
-     - throws: MapperError.CustomError      if the passed value a String but the NSURL initializer returns nil
+     - throws: MapperError.ConvertibleError if the passed value is not an TimeInterval
      - returns: The date created with the timestamp
      */
     public static func from(value: Any?) throws -> Date {
@@ -36,6 +35,23 @@ extension Date : Convertible{
             throw MapperError.convertibleError(value: value, type: TimeInterval.self)
         }
         return Date(timeIntervalSince1970: timestamp)
+    }
+    
+    /**
+     Create a NSDate from Mapper
+     
+     - parameter value: The string passed from Mapper
+     - throws: MapperError.ConvertibleError if the passed value is not a String or DateFormatter returns nil
+     - returns: The date created with the timestamp
+    */
+    public static func from(value: Any?, format:String) throws -> Date {
+        let formatter = DateFormatter()
+        formatter.dateFormat = format
+        if let date = (value as? String).flatMap({formatter.date(from: $0)}) {
+            return date
+        }else{
+            throw MapperError.convertibleError(value: value, type: Date.self)
+        }
     }
 }
 
