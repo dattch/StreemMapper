@@ -1,10 +1,10 @@
 Pod::Spec.new do |s|
   s.name                      = "StreemMapper"
-  s.version                   = "1.0.0"
+  s.version                   = "6.0.0"
   s.summary                   = "A JSON deserialization library for Swift"
   s.homepage                  = "https://github.com/JustaLab/mapper"
   s.license                   = "Apache License, Version 2.0"
-  s.author                    = { "Emilien Stremsdoerfer" => "emstre@gmail.com" }
+  s.author                    = {"Keith Smiley" => "keithbsmiley@gmail.com", "Emilien Stremsdoerfer" => "emstre@gmail.com" }
   s.ios.deployment_target     = "8.0"
   s.osx.deployment_target     = "10.10"
   s.tvos.deployment_target    = "9.0"
