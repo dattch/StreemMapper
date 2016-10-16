@@ -13,6 +13,7 @@ This fork includes few modifications to the original project:
 - [Custom Operator](#custom-operator)
 - [Default Convertibles](#default-convertibles)
 - [Arrays](#arrays)
+- [Dates](#dates)
 - [Initialization](#initialization)
 
 
@@ -256,6 +257,21 @@ struct User: Mappable {
   init(map: Mapper) throws {
     try self.name = map |> "name"
     availableDays = map |> "available_days" //returns nil if  key is not there
+  }
+}
+```
+
+## Dates
+
+Dates can now be parsed using a formatter or a timestamp:
+
+```
+struct User: Mappable {
+  let date1: Date
+  let date2: Date?
+  init(map: Mapper) throws {
+    try date1 = map |> ("date1", "MMMM dd, yyyy h:mm:ss a zzz")  // will try to parse as a string with the given format
+    date2     = map |> "date2" //will try to parse it as a timestamp
   }
 }
 ```

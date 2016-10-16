@@ -2,7 +2,7 @@ import Mapper
 import XCTest
 
 private struct Foo: Convertible {
-    static func fromMap(value: AnyObject?) throws -> Foo {
+    static func from(value: Any?) throws -> Foo {
         return Foo()
     }
 }
@@ -10,9 +10,9 @@ private struct Foo: Convertible {
 final class ConvertibleValueTests: XCTestCase {
     func testCreatingURL() {
         struct Test: Mappable {
-            let URL: NSURL
+            let URL: Foundation.URL
             init(map: Mapper) throws {
-                try self.URL = map.from("url")
+                try self.URL = map.from(field:"url")
             }
         }
 
@@ -22,9 +22,9 @@ final class ConvertibleValueTests: XCTestCase {
 
     func testOptionalURL() {
         struct Test: Mappable {
-            let URL: NSURL?
+            let URL: Foundation.URL?
             init(map: Mapper) {
-                self.URL = map.from("url")
+                self.URL = map.from(field:"url")
             }
         }
 
@@ -34,9 +34,9 @@ final class ConvertibleValueTests: XCTestCase {
 
     func testInvalidURL() {
         struct Test: Mappable {
-            let URL: NSURL?
+            let URL: Foundation.URL?
             init(map: Mapper) {
-                self.URL = map.from("url")
+                self.URL = map.from(field:"url")
             }
         }
 
@@ -46,9 +46,9 @@ final class ConvertibleValueTests: XCTestCase {
 
     func testArrayOfConvertibles() {
         struct Test: Mappable {
-            let URLs: [NSURL]
+            let URLs: [URL]
             init(map: Mapper) throws {
-                try self.URLs = map.from("urls")
+                try self.URLs = map.from(field:"urls")
             }
         }
 
@@ -58,9 +58,9 @@ final class ConvertibleValueTests: XCTestCase {
 
     func testOptionalArrayOfConvertibles() {
         struct Test: Mappable {
-            let URLs: [NSURL]?
+            let URLs: [URL]?
             init(map: Mapper) {
-                self.URLs = map.from("urls")
+                self.URLs = map.from(field:"urls")
             }
         }
 
@@ -70,9 +70,9 @@ final class ConvertibleValueTests: XCTestCase {
 
     func testExistingOptionalArrayOfConvertibles() {
         struct Test: Mappable {
-            let URLs: [NSURL]?
+            let URLs: [URL]?
             init(map: Mapper) {
-                self.URLs = map.from("urls")
+                self.URLs = map.from(field:"urls")
             }
         }
 
@@ -82,9 +82,9 @@ final class ConvertibleValueTests: XCTestCase {
 
     func testInvalidArrayOfConvertibles() {
         struct Test: Mappable {
-            let URLs: [NSURL]
+            let URLs: [URL]
             init(map: Mapper) throws {
-                try self.URLs = map.from("urls")
+                try self.URLs = map.from(field:"urls")
             }
         }
 
@@ -94,9 +94,9 @@ final class ConvertibleValueTests: XCTestCase {
 
     func testInvalidArrayOfOptionalConvertibles() {
         struct Test: Mappable {
-            let URLs: [NSURL]?
+            let URLs: [URL]?
             init(map: Mapper) {
-                self.URLs = map.from("urls")
+                self.URLs = map.from(field:"urls")
             }
         }
 
@@ -106,9 +106,9 @@ final class ConvertibleValueTests: XCTestCase {
 
     func testConvertibleArrayOfKeys() {
         struct Test: Mappable {
-            let URL: NSURL?
+            let URL: Foundation.URL?
             init(map: Mapper) {
-                self.URL = map.from(["a", "b"])
+                self.URL = map.from(fields:["a", "b"])
             }
         }
 
@@ -118,9 +118,9 @@ final class ConvertibleValueTests: XCTestCase {
 
     func testConvertibleArrayOfKeysReturnsNil() {
         struct Test: Mappable {
-            let URL: NSURL?
+            let URL: Foundation.URL?
             init(map: Mapper) {
-                self.URL = map.from(["a", "b"])
+                self.URL = map.from(fields:["a", "b"])
             }
         }
 
@@ -133,11 +133,11 @@ final class ConvertibleValueTests: XCTestCase {
             let dictionary: [String: Int]
 
             init(map: Mapper) throws {
-                try self.dictionary = map.from("foo")
+                try self.dictionary = map.from(field:"foo")
             }
         }
 
-        let test = Test.from(["foo": ["key": 1]])
+        let test = Test.from(JSON: ["foo": ["key": 1]])
         XCTAssertTrue(test?.dictionary["key"] == 1)
     }
 
@@ -146,11 +146,11 @@ final class ConvertibleValueTests: XCTestCase {
             let dictionary: [String: Int]?
 
             init(map: Mapper) throws {
-                self.dictionary = map.from("foo")
+                self.dictionary = map.from(field:"foo")
             }
         }
 
-        let test = Test.from(["foo": ["key": 1]])
+        let test = Test.from(JSON: ["foo": ["key": 1]])
         XCTAssertTrue(test?.dictionary?["key"] == 1)
     }
 
@@ -159,12 +159,12 @@ final class ConvertibleValueTests: XCTestCase {
             let dictionary: [String: Foo]
 
             init(map: Mapper) throws {
-                try self.dictionary = map.from("foo")
+                try self.dictionary = map.from(field:"foo")
             }
         }
 
-        let test = Test.from(["foo": ["key": "value"]])
-        XCTAssertTrue(test?.dictionary.count > 0)
+        let test = Test.from(JSON: ["foo": ["key": "value"]])
+        XCTAssertTrue(test!.dictionary.count > 0)
     }
 
     func testOptionalDictionaryConvertibleNil() {
@@ -172,7 +172,7 @@ final class ConvertibleValueTests: XCTestCase {
             let dictionary: [String: Int]?
 
             init(map: Mapper) throws {
-                self.dictionary = map.from("foo")
+                self.dictionary = map.from(field:"foo")
             }
         }
 
@@ -189,11 +189,11 @@ final class ConvertibleValueTests: XCTestCase {
             let dictionary: [String: Int]
 
             init(map: Mapper) throws {
-                try self.dictionary = map.from("foo")
+                try self.dictionary = map.from(field:"foo")
             }
         }
 
-        let test = Test.from(["foo": ["key": 1, "key2": "not int"]])
+        let test = Test.from(JSON: ["foo": ["key": 1, "key2": "not int"]])
         XCTAssertNil(test)
     }
 
@@ -202,11 +202,71 @@ final class ConvertibleValueTests: XCTestCase {
             let dictionary: [String: Int]
 
             init(map: Mapper) throws {
-                try self.dictionary = map.from("foo")
+                try self.dictionary = map.from(field:"foo")
             }
         }
 
-        let test = Test.from(["foo": "not a dictionary"])
+        let test = Test.from(JSON: ["foo": "not a dictionary"])
         XCTAssertNil(test)
+    }
+    
+    func testDateWithTimestamp() {
+        struct Test:Mappable{
+            let date:Date
+            
+            init(map: Mapper) throws {
+                try date = map |> "date"
+            }
+        }
+        let test = Test.from(JSON: ["date": 1475975039])
+        XCTAssertNotNil(test)
+    }
+    
+    func testOptionalDateWithTimestamp() {
+        struct Test:Mappable{
+            let date:Date?
+            
+            init(map: Mapper) throws {
+                date = map |> "date"
+            }
+        }
+        let test = Test.from(JSON: ["date": 1475975039])
+        XCTAssertNotNil(test?.date)
+    }
+    
+    func testDateWithFormat() {
+        struct Test:Mappable{
+            let date:Date
+            
+            init(map: Mapper) throws {
+                try date = map |> ("date", "MMMM dd, yyyy h:mm:ss a zzz")
+            }
+        }
+        let test = Test.from(JSON: ["date": "June 30, 2009 7:03:47 AM PDT"])
+        XCTAssertNotNil(test)
+    }
+    
+    func testOptionalDateWithFormat() {
+        struct Test:Mappable{
+            let date:Date?
+            
+            init(map: Mapper) throws {
+                date = map |> ("date", "MMMM dd, yyyy h:mm:ss a zzz")
+            }
+        }
+        let test = Test.from(JSON: ["date": "June 30, 2009 7:03:47 AM PDT"])
+        XCTAssertNotNil(test?.date)
+    }
+    
+    func testInvalidDateWithFormat() {
+        struct Test:Mappable{
+            let date:Date?
+            
+            init(map: Mapper) throws {
+                date = map |> ("date", "wrong format")
+            }
+        }
+        let test = Test.from(JSON: ["date": "June 30, 2009 7:03:47 AM PDT"])
+        XCTAssertNil(test?.date)
     }
 }

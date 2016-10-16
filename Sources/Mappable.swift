@@ -24,7 +24,7 @@ public protocol Mappable {
     /**
      Define how your custom object is created from a Mapper object
      */
-    @warn_unused_result
+    
     init(map: Mapper) throws
 }
 
@@ -36,8 +36,8 @@ public protocol Mappable {
  
  */
 public extension Mappable{
-    public static func from(JSON: AnyObject) -> Self? {
-        if let inputValue = JSON as? [String:AnyObject]{
+    public static func from(JSON: Any) -> Self? {
+        if let inputValue = JSON as? NSDictionary{
             return try? self.init(map: Mapper(JSON: inputValue))
         }
         return nil
@@ -52,9 +52,13 @@ public extension Mappable{
  */
 public extension Array where Element: Mappable{
     
-    public static func from(JSON: AnyObject) -> [Element]? {
-        if let inputArray = JSON as? [[String:AnyObject]] {
+    public static func from(JSON: Any, rootKey:String? = nil) -> [Element]? {
+        if let inputArray = JSON as? [NSDictionary] {
             return inputArray.map({ try? Element(map: Mapper(JSON: $0))}).flatMap({$0})
+        }else if let rootKey = rootKey, let inputDict = JSON as? NSDictionary  {
+            if let array = inputDict.safeValueWith(keyPath: rootKey) as? [NSDictionary]{
+                return array.map({ try? Element(map: Mapper(JSON: $0))}).flatMap({$0})
+            }
         }
         return nil
     }

@@ -6,7 +6,7 @@ final class RawRepresentibleValueTests: XCTestCase {
         struct Test: Mappable {
             let suit: Suits
             init(map: Mapper) throws {
-                try self.suit = map.from("suit")
+                try self.suit = map.from(field:"suit")
             }
         }
 
@@ -22,28 +22,28 @@ final class RawRepresentibleValueTests: XCTestCase {
         struct Test: Mappable {
             let value: Value
             init(map: Mapper) throws {
-                try self.value = map.from("value")
+                try self.value = map.from(field:"value")
             }
         }
 
         enum Value: Int {
-            case First = 1
+            case first = 1
         }
 
         let test = try? Test(map: Mapper(JSON: ["value": 1]))
-        XCTAssertTrue(test?.value == .First)
+        XCTAssertTrue(test?.value == .first)
     }
 
     func testMissingRawRepresentableNumber() {
         struct Test: Mappable {
             let value: Value
             init(map: Mapper) throws {
-                try self.value = map.from("value")
+                try self.value = map.from(field:"value")
             }
         }
 
         enum Value: Int {
-            case First = 1
+            case first = 1
         }
 
         let test = try? Test(map: Mapper(JSON: [:]))
@@ -54,12 +54,12 @@ final class RawRepresentibleValueTests: XCTestCase {
         struct Test: Mappable {
             let value: Value?
             init(map: Mapper) {
-                self.value = map.from("value")
+                self.value = map.from(field:"value")
             }
         }
 
         enum Value: Int {
-            case First = 1
+            case first = 1
         }
 
         let test = Test(map: Mapper(JSON: [:]))
@@ -70,28 +70,28 @@ final class RawRepresentibleValueTests: XCTestCase {
         struct Test: Mappable {
             let value: Value?
             init(map: Mapper) {
-                self.value = map.from("value")
+                self.value = map.from(field:"value")
             }
         }
 
         enum Value: Int {
-            case First = 1
+            case first = 1
         }
 
         let test = Test(map: Mapper(JSON: ["value": 1]))
-        XCTAssertTrue(test.value == .First)
+        XCTAssertTrue(test.value == .first)
     }
 
     func testRawRepresentableTypeMismatch() {
         struct Test: Mappable {
             let value: Value?
             init(map: Mapper) {
-                self.value = map.from("value")
+                self.value = map.from(field:"value")
             }
         }
 
         enum Value: Int {
-            case First = 1
+            case first = 1
         }
 
         let test = Test(map: Mapper(JSON: ["value": "not an int"]))
@@ -102,7 +102,7 @@ final class RawRepresentibleValueTests: XCTestCase {
         struct Test: Mappable {
             let value: Value?
             init(map: Mapper) {
-                self.value = map.from(["a", "b"])
+                self.value = map.from(fields:["a", "b"])
             }
         }
 
@@ -118,7 +118,7 @@ final class RawRepresentibleValueTests: XCTestCase {
         struct Test: Mappable {
             let value: Value?
             init(map: Mapper) {
-                self.value = map.from(["a", "b"])
+                self.value = map.from(fields:["a", "b"])
             }
         }
 
@@ -134,7 +134,7 @@ final class RawRepresentibleValueTests: XCTestCase {
         struct Test: Mappable {
             let value: [Value]
             init(map: Mapper) throws {
-                self.value = try map.from("a")
+                self.value = try map.from(field:"a")
             }
         }
 
@@ -145,7 +145,7 @@ final class RawRepresentibleValueTests: XCTestCase {
         do {
             _ = try Test(map: Mapper(JSON: [:]))
             XCTFail("Expected initialization to fail")
-        } catch MapperError.MissingFieldError(let field) {
+        } catch MapperError.missingFieldError(let field) {
             XCTAssertEqual(field, "a")
         } catch let error {
             XCTFail("Expected only missing field error, got \(error)")
@@ -156,7 +156,7 @@ final class RawRepresentibleValueTests: XCTestCase {
         struct Test: Mappable {
             let values: [Value]
             init(map: Mapper) throws {
-                self.values = try map.from("a")
+                self.values = try map.from(field:"a")
             }
         }
 
@@ -167,10 +167,10 @@ final class RawRepresentibleValueTests: XCTestCase {
         do {
             _ = try Test(map: Mapper(JSON: ["a": 1]))
             XCTFail("Expected initialization to fail")
-        } catch MapperError.TypeMismatchError(let field, let value, let type) {
+        } catch MapperError.typeMismatchError(let field, let value, let type) {
             XCTAssertEqual(field, "a")
             XCTAssertEqual(value as? Int, 1)
-            XCTAssert(type == [AnyObject].self)
+            XCTAssert(type == [Any].self)
         } catch let error {
             XCTFail("Expected only missing field error, got \(error)")
         }
@@ -180,7 +180,7 @@ final class RawRepresentibleValueTests: XCTestCase {
         struct Test: Mappable {
             let values: [Value]
             init(map: Mapper) throws {
-                self.values = try map.from("a")
+                self.values = try map.from(field:"a")
             }
         }
 
@@ -191,7 +191,7 @@ final class RawRepresentibleValueTests: XCTestCase {
         do {
             _ = try Test(map: Mapper(JSON: ["a": [1]]))
             XCTFail("Expected initialization to fail")
-        } catch MapperError.ConvertibleError(let value, let type) {
+        } catch MapperError.convertibleError(let value, let type) {
             XCTAssertEqual(value as? Int, 1)
             XCTAssert(type == String.self)
         } catch let error {
@@ -203,7 +203,7 @@ final class RawRepresentibleValueTests: XCTestCase {
         struct Test: Mappable {
             let values: [Value]
             init(map: Mapper) throws {
-                self.values = try map.from("a")
+                self.values = try map.from(field:"a")
             }
         }
 
@@ -224,7 +224,7 @@ final class RawRepresentibleValueTests: XCTestCase {
         struct Test: Mappable {
             let values: [Value]
             init(map: Mapper) throws {
-                self.values = try map.from("a", defaultValue: .First)
+                self.values = try map.from(field:"a", defaultValue: .First)
             }
         }
 
@@ -245,7 +245,7 @@ final class RawRepresentibleValueTests: XCTestCase {
         struct Test: Mappable {
             let values: [Value]?
             init(map: Mapper) throws {
-                self.values = map.from("a")
+                self.values = map.from(field:"a")
             }
         }
         
