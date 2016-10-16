@@ -24,7 +24,7 @@ This fork includes few modifications to the original project:
 ```ruby
 use_frameworks!
 
-pod "ModelMapper"
+pod "StreemMapper"
 ```
 
 #### With [Carthage](https://github.com/Carthage/Carthage)
