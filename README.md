@@ -30,7 +30,7 @@ pod "StreemMapper"
 #### With [Carthage](https://github.com/Carthage/Carthage)
 
 ```
-github "lyft/mapper"
+github "JustaLab/mapper"
 ```
 
 ## Usage
