@@ -12,5 +12,5 @@ Pod::Spec.new do |s|
   s.source                    = { :git => "https://github.com/JustaLab/mapper.git", :tag => s.version }
   s.requires_arc              = true
   s.source_files              = "Sources/*.swift"
-  s.module_name               = "Mapper"
+  s.module_name               = "StreemMapper"
 end
