@@ -42,8 +42,8 @@ struct User: Mappable {
 }
 
 // Create a user!
-let JSON:Any = ...
-let user = User.from(JSON) // This is a 'User?'
+let json:Any = ...
+let user = User.from(JSON:json) // This is a 'User?'
 ```
 
 ### Using with enums:
@@ -123,7 +123,7 @@ let JSON = [
   ],
 ]
 
-let place = Place.from(JSON)
+let place = Place.from(JSON:json)
 ```
 
 ### Custom Transformations
@@ -146,7 +146,7 @@ struct User: Mappable {
   let firstName: String
 
   init(map: Mapper) throws {
-    try firstName = map.from("name", transformation: extractFirstName)
+    try firstName = map.from(field:"name", transformation: extractFirstName)
   }
 }
 ```
@@ -224,10 +224,11 @@ Many convertibles are now supported in this fork, here is the list of all suppor
 
 ### Arrays
 
+#### Initialization
 For consistency reasons, an Array is now initialized just like a object.
 
 ```swift
-let users = [User].from(JSON) // Returns a [User]?
+let users = [User].from(JSON:json) // Returns a [User]?
 ```
 
 Also when parsing an array, the original library doesn't allow you to have a malformed object within the JSON array. It will just return nil. This fork allows the creation of an array and will just omit the malformed objects.
@@ -236,14 +237,44 @@ Also when parsing an array, the original library doesn't allow you to have a mal
 struct User: Mappable {
   let name: String
   init(map: Mapper) throws {
-    try self.name = map.from("name")
+    try self.name = map |> "name"
   }
 }
 let JSON = [["name": "John"], ["firstname": "Bob"]]
-let users = [User].from(JSON) // Returns  1 User object with name John
+let users = [User].from(JSON:JSON) // Returns  1 User object with name John
 ```
 If no object can be parsed within the JSON array, this will return an empty array. If the JSON is not array, it will return nil.
 
+#### Root Keys
+
+With StreemMapper, you can now also parse an array with a given root key. For example if you have a JSON like this:
+
+```json
+{
+  "data" : [
+    {"id":1, name:"Alice"},
+    {"id":2, name:"Bob"},
+    {"id":3, name:"Carol"}
+  ]
+}
+```
+You can parse the array directly, without having to add a wrapper object:
+
+```swift
+struct User: Mappable {
+    let id: Int
+    let name: String
+    init(map: Mapper) throws {
+      try id    = map |> "id"
+      try name  = map |> "name"
+    }
+}
+let json = ["data":[["id":1, "name":"Alice"],["id":2, "name":"Bob"],["id":3, "name":"Carol"]]]
+let users = [User].from(JSON:json, rootKey: "data")
+```
+
+
+#### Array of enums
 Finally, this fork allows you to parse an optional array of enums, this is especially useful, if you're unsure about the JSON you receive and prefer to return nil or an empty array instead of throwing an exception.
 
 ```swift
@@ -282,9 +313,9 @@ When creating an object there is no need any more to parse the initial object in
 
 For instance:
 ```swift
-let JSON:AnyObject = ...
-let user = User.from(JSON)    // Returns nil if JSON is not dictionary
-let users = [User].from(JSON) // Returns nil if JSON is not an array
+let json:Any = ...
+let user = User.from(JSON:json)    // Returns nil if JSON is not dictionary
+let users = [User].from(JSON:json) // Returns nil if JSON is not an array
 ```
 
 Also, because of type inference over the optional type, methods **optionalFrom** and **from** have been merged into the single method **from**.

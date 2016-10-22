@@ -178,6 +178,7 @@ final class MappableValueTests: XCTestCase {
                 try value = map |> "value"
             }
         }
+        
         let tests = [Test].from(JSON: ["foo": ["bar":[["value": 1], ["value": 2], ["value": 3]]]], rootKey:"foo.bar")
         XCTAssertEqual(tests?.count, 3)
         XCTAssertEqual(tests?[2].value, 3)
