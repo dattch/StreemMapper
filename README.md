@@ -1,21 +1,11 @@
 
 
 
-# Mapper
+# StreemMapper
 
-Mapper is a simple Swift library to convert JSON to strongly typed
-objects. One advantage to Mapper over some other libraries is you can
-have immutable properties.
-
-## Fork modifications
-
-This fork includes few modifications to the original project:
-- [Custom Operator](#custom-operator)
-- [Default Convertibles](#default-convertibles)
-- [Arrays](#arrays)
-- [Dates](#dates)
-- [Initialization](#initialization)
-
+StreemMapper is a simple Swift library to convert JSON to strongly typed
+objects.
+StreemMapper was originally forked from the awesome [mapper](https://github.com/lyft/mapper) library
 
 ## Installation
 
@@ -38,7 +28,7 @@ github "JustaLab/mapper"
 ### Simple example:
 
 ```swift
-import Mapper
+import StreemMapper
 // Conform to the Mappable protocol
 struct User: Mappable {
   let id: String
@@ -46,13 +36,13 @@ struct User: Mappable {
 
   // Implement this initializer
   init(map: Mapper) throws {
-    try id = map.from("id")
-    photoURL = map.optionalFrom("avatar_url")
+    try id    = map |> "id"
+    photoURL  = map |> "avatar_url"
   }
 }
 
 // Create a user!
-let JSON: NSDictionary = ...
+let JSON:Any = ...
 let user = User.from(JSON) // This is a 'User?'
 ```
 
@@ -69,8 +59,8 @@ struct User: Mappable {
   let type: UserType
 
   init(map: Mapper) throws {
-    try id = map.from("id")
-    try type = map.from("user_type")
+    try id    = map |> "id"
+    try type  = map |> "user_type"
   }
 }
 ```
@@ -83,8 +73,8 @@ struct User: Mappable {
   let name: String
 
   init(map: Mapper) throws {
-    try id = map.from("id")
-    try name = map.from("name")
+    try id    = map |> "id"
+    try name  = map |> "name"
   }
 }
 
@@ -93,8 +83,8 @@ struct Group: Mappable {
   let users: [User]
 
   init(map: Mapper) throws {
-    try id = map.from("id")
-    users = map.optionalFrom("users") ?? []
+    try id  = map |> "id"
+    users   = map |> "users" ?? []
   }
 }
 ```
@@ -120,8 +110,8 @@ struct Place: Mappable {
   let location: CLLocationCoordinate2D
 
   init(map: Mapper) throws {
-    try name = map.from("name")
-    try location = map.from("location")
+    try name     = map |> "name"
+    try location = map |> "location"
   }
 }
 
@@ -170,15 +160,25 @@ struct User: Mappable {
 
   init(map: Mapper) throws {
     // Access the 'first' key nested in a 'name' dictionary
-    try name = map.from("name.first")
+    try name = map |> "name.first"
     // Access the original JSON (maybe for use with a transformation)
-    try JSON = map.from("")
+    try JSON = map |> ""
   }
 }
 ```
 See the docstrings and tests for more information and examples.
 
-## Custom Operator
+
+## Fork modifications
+
+This fork includes few modifications to the original project:
+- [Custom Operator](#custom-operator)
+- [Default Convertibles](#default-convertibles)
+- [Arrays](#arrays)
+- [Dates](#dates)
+- [Initialization](#initialization)
+
+### Custom Operator
 
 This fork includes a custom operator that allows you to parse the Mapper object super cleanly:
 
@@ -198,7 +198,7 @@ struct User: Mappable {
 
 ```
 
-## Default Convertibles
+### Default Convertibles
 
 Many convertibles are now supported in this fork, here is the list of all supported types, in bold are thoses added.
 
@@ -222,7 +222,7 @@ Many convertibles are now supported in this fork, here is the list of all suppor
 - NSURL
 - **NSDate** from a timestamp
 
-## Arrays
+### Arrays
 
 For consistency reasons, an Array is now initialized just like a object.
 
@@ -261,7 +261,7 @@ struct User: Mappable {
 }
 ```
 
-## Dates
+### Dates
 
 Dates can now be parsed using a formatter or a timestamp:
 
@@ -276,7 +276,7 @@ struct User: Mappable {
 }
 ```
 
-## Initialization
+### Initialization
 
 When creating an object there is no need any more to parse the initial object into a Dictionary or Array. The library takes care of it and will return nil if an array is passed instead of a dictionary and vice versa.
 
@@ -311,5 +311,5 @@ These radars have affected the current implementation of Mapper
 
 ## License
 
-Mapper is maintained by [Lyft](https://www.lyft.com/) and released under
+StreemMapper is maintained by Emilien Stremsdoerfer and released under
 the Apache 2.0 license. See LICENSE for details
