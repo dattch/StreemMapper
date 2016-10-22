@@ -252,9 +252,9 @@ With StreemMapper, you can now also parse an array with a given root key. For ex
 ```json
 {
   "data" : [
-    {"id":1, name:"Alice"},
-    {"id":2, name:"Bob"},
-    {"id":3, name:"Carol"}
+    {"id":1, "name":"Alice"},
+    {"id":2, "name":"Bob"},
+    {"id":3, "name":"Carol"}
   ]
 }
 ```
