@@ -93,7 +93,7 @@ struct Group: Mappable {
 
 ```swift
 extension CLLocationCoordinate2D: Convertible {
-  static func fromMap(value: AnyObject?) throws -> CLLocationCoordinate2D {
+  static func from(value: Any?) throws -> CLLocationCoordinate2D {
     guard let location = value as? NSDictionary,
       let latitude = location["lat"] as? Double,
       let longitude = location["lng"] as? Double else
@@ -129,7 +129,7 @@ let place = Place.from(JSON:json)
 ### Custom Transformations
 
 ```swift
-private func extractFirstName(object: AnyObject?) throws -> String {
+private func extractFirstName(object: Any?) throws -> String {
   guard let fullName = object as? String else {
     throw MapperError.ConvertibleError(value: object, type: String.self)
   }
@@ -156,7 +156,7 @@ struct User: Mappable {
 ```swift
 struct User: Mappable {
   let name: String
-  let JSON: AnyObject
+  let JSON: Any
 
   init(map: Mapper) throws {
     // Access the 'first' key nested in a 'name' dictionary
