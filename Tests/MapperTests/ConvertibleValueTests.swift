@@ -209,11 +209,11 @@ final class ConvertibleValueTests: XCTestCase {
         let test = Test.from(JSON: ["foo": "not a dictionary"])
         XCTAssertNil(test)
     }
-    
+
     func testDateWithTimestamp() {
-        struct Test:Mappable{
-            let date:Date
-            
+        struct Test: Mappable{
+            let date: Date
+
             init(map: Mapper) throws {
                 try date = map |> "date"
             }
@@ -221,11 +221,11 @@ final class ConvertibleValueTests: XCTestCase {
         let test = Test.from(JSON: ["date": 1475975039])
         XCTAssertNotNil(test)
     }
-    
+
     func testOptionalDateWithTimestamp() {
-        struct Test:Mappable{
-            let date:Date?
-            
+        struct Test: Mappable{
+            let date: Date?
+
             init(map: Mapper) throws {
                 date = map |> "date"
             }
@@ -233,11 +233,11 @@ final class ConvertibleValueTests: XCTestCase {
         let test = Test.from(JSON: ["date": 1475975039])
         XCTAssertNotNil(test?.date)
     }
-    
+
     func testDateWithFormat() {
-        struct Test:Mappable{
-            let date:Date
-            
+        struct Test: Mappable{
+            let date: Date
+
             init(map: Mapper) throws {
                 try date = map |> ("date", "MMMM dd, yyyy h:mm:ss a zzz")
             }
@@ -245,11 +245,11 @@ final class ConvertibleValueTests: XCTestCase {
         let test = Test.from(JSON: ["date": "June 30, 2009 7:03:47 AM PDT"])
         XCTAssertNotNil(test)
     }
-    
+
     func testOptionalDateWithFormat() {
-        struct Test:Mappable{
-            let date:Date?
-            
+        struct Test: Mappable{
+            let date: Date?
+
             init(map: Mapper) throws {
                 date = map |> ("date", "MMMM dd, yyyy h:mm:ss a zzz")
             }
@@ -257,11 +257,11 @@ final class ConvertibleValueTests: XCTestCase {
         let test = Test.from(JSON: ["date": "June 30, 2009 7:03:47 AM PDT"])
         XCTAssertNotNil(test?.date)
     }
-    
+
     func testInvalidDateWithFormat() {
-        struct Test:Mappable{
-            let date:Date?
-            
+        struct Test: Mappable{
+            let date: Date?
+
             init(map: Mapper) throws {
                 date = map |> ("date", "wrong format")
             }

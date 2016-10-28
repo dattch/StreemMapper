@@ -39,6 +39,5 @@ public protocol Convertible {
 
      - returns: The successfully created value from the given input
      */
-    
     static func from(value: Any?) throws -> ConvertedType
 }

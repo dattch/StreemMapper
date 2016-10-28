@@ -54,7 +54,7 @@ final class OptionalValueTests: XCTestCase {
         struct Test: Mappable {
             let string: String?
             init(map: Mapper) throws {
-                self.string = map.from(fields:["a","b","c",])
+                self.string = map.from(fields:["a", "b", "c", ])
             }
         }
 

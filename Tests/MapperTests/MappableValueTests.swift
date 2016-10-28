@@ -52,7 +52,6 @@ final class MappableValueTests: XCTestCase {
             init(map: Mapper) {}
         }
 
-
         let test = Test(map: Mapper(JSON: [:]))
         XCTAssertNil(test.nest)
     }
@@ -170,7 +169,7 @@ final class MappableValueTests: XCTestCase {
             XCTFail("Failed to create Test")
         }
     }
-    
+
     func testMappableArrayWithRootKey(){
         struct Test: Mappable {
             let value: Int
@@ -178,8 +177,8 @@ final class MappableValueTests: XCTestCase {
                 try value = map |> "value"
             }
         }
-        
-        let tests = [Test].from(JSON: ["foo": ["bar":[["value": 1], ["value": 2], ["value": 3]]]], rootKey:"foo.bar")
+        let json = ["foo": ["bar":[["value": 1], ["value": 2], ["value": 3]]]]
+        let tests = [Test].from(JSON: json, rootKey:"foo.bar")
         XCTAssertEqual(tests?.count, 3)
         XCTAssertEqual(tests?[2].value, 3)
     }

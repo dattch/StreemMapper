@@ -13,7 +13,7 @@ final class NormalValueTests: XCTestCase {
         let test = try? Test(map: Mapper(JSON: ["string": "Hello"]))
         XCTAssertTrue(test?.string == "Hello")
     }
-    
+
     func testValueBoolean() {
         struct Test: Mappable {
             let value: Bool
@@ -21,7 +21,7 @@ final class NormalValueTests: XCTestCase {
                 try self.value = map.from(field:"value")
             }
         }
-        
+
         let test = try? Test(map: Mapper(JSON: ["value": true]))
         XCTAssertTrue(test!.value)
     }

@@ -3,7 +3,6 @@
 /// Types in an extension in their own projects (e.g. `CGFloat`)
 import Foundation
 
-
 //MARK: - Default Extensions
 
 extension String: DefaultConvertible {}
@@ -16,16 +15,16 @@ extension NSNumber: DefaultConvertible{}
 extension NSDictionary: DefaultConvertible {}
 extension NSArray: DefaultConvertible {}
 
-//MARK:- NSDate Extension
+// MARK: - NSDate Extension
 
 /**
  NSDate Convertible implementation
  */
 extension Date : Convertible{
-    
+
     /**
      Create a NSDate from Mapper
-     
+
      - parameter value: The timestamp passed from Mapper
      - throws: MapperError.ConvertibleError if the passed value is not an TimeInterval
      - returns: The date created with the timestamp
@@ -36,27 +35,26 @@ extension Date : Convertible{
         }
         return Date(timeIntervalSince1970: timestamp)
     }
-    
+
     /**
      Create a NSDate from Mapper
-     
+
      - parameter value: The string passed from Mapper
      - throws: MapperError.ConvertibleError if the passed value is not a String or DateFormatter returns nil
      - returns: The date created with the timestamp
     */
-    public static func from(value: Any?, format:String) throws -> Date {
+    public static func from(value: Any?, format: String) throws -> Date {
         let formatter = DateFormatter()
         formatter.dateFormat = format
         if let date = (value as? String).flatMap({formatter.date(from: $0)}) {
             return date
-        }else{
+        } else{
             throw MapperError.convertibleError(value: value, type: Date.self)
         }
     }
 }
 
-
-//MARK:- NSURL Extension
+// MARK: - NSURL Extension
 
 /**
  NSURL Convertible implementation
@@ -64,7 +62,7 @@ extension Date : Convertible{
 extension URL: Convertible {
     /**
      Create a NSURL from Mapper
-     
+
      - parameter value: The object (or nil) passed from Mapper
      - throws: MapperError.ConvertibleError if the passed value is not a String
      - throws: MapperError.CustomError      if the passed value a String but the NSURL initializer returns nil
@@ -74,25 +72,25 @@ extension URL: Convertible {
         guard let string = value as? String else {
             throw MapperError.convertibleError(value: value, type: String.self)
         }
-        
+
         if let URL = URL(string: string) {
             return URL
         }
-        
+
         throw MapperError.customError(field: nil, message: "'\(string)' is not a valid NSURL")
     }
 }
 
-//MARK:- Numbers Extensions
+// MARK: - Numbers Extensions
 
 /**
  Int64 Convertible implementation
  */
 extension Int64:Convertible{
-    
+
     /**
      Create a Int64 from Mapper
-     
+
      - parameter value: The object (or nil) passed from Mapper
      - throws: MapperError.ConvertibleError if the passed value is not a Number
      - returns: The created Int64
@@ -109,10 +107,10 @@ extension Int64:Convertible{
  UInt64 Convertible implementation
  */
 extension UInt64:Convertible{
-    
+
     /**
      Create a UInt64 from Mapper
-     
+
      - parameter value: The object (or nil) passed from Mapper
      - throws: MapperError.ConvertibleError if the passed value is not a Number
      - returns: The created UInt64
@@ -129,10 +127,10 @@ extension UInt64:Convertible{
  Int32 Convertible implementation
  */
 extension Int32:Convertible{
-    
+
     /**
      Create a Int32 from Mapper
-     
+
      - parameter value: The object (or nil) passed from Mapper
      - throws: MapperError.ConvertibleError if the passed value is not a Number
      - returns: The created Int32
@@ -149,10 +147,10 @@ extension Int32:Convertible{
  UInt32 Convertible implementation
  */
 extension UInt32:Convertible{
-    
+
     /**
      Create a UInt32 from Mapper
-     
+
      - parameter value: The object (or nil) passed from Mapper
      - throws: MapperError.ConvertibleError if the passed value is not a Number
      - returns: The created UInt32
@@ -169,10 +167,10 @@ extension UInt32:Convertible{
  Int16 Convertible implementation
  */
 extension Int16:Convertible{
-    
+
     /**
      Create a Int16 from Mapper
-     
+
      - parameter value: The object (or nil) passed from Mapper
      - throws: MapperError.ConvertibleError if the passed value is not a Number
      - returns: The created Int16
@@ -189,10 +187,10 @@ extension Int16:Convertible{
  UInt16 Convertible implementation
  */
 extension UInt16:Convertible{
-    
+
     /**
      Create a UInt16 from Mapper
-     
+
      - parameter value: The object (or nil) passed from Mapper
      - throws: MapperError.ConvertibleError if the passed value is not a Number
      - returns: The created UInt16
@@ -209,10 +207,10 @@ extension UInt16:Convertible{
  Int8 Convertible implementation
  */
 extension Int8:Convertible{
-    
+
     /**
      Create a Int8 from Mapper
-     
+
      - parameter value: The object (or nil) passed from Mapper
      - throws: MapperError.ConvertibleError if the passed value is not a Number
      - returns: The created Int8
@@ -229,10 +227,10 @@ extension Int8:Convertible{
  UInt8 Convertible implementation
  */
 extension UInt8:Convertible{
-    
+
     /**
      Create a UInt8 from Mapper
-     
+
      - parameter value: The object (or nil) passed from Mapper
      - throws: MapperError.ConvertibleError if the passed value is not a Number
      - returns: The created UInt8

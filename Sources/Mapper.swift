@@ -12,7 +12,7 @@ public struct Mapper {
 
      - parameter JSON: The dictionary to use for the data
      */
-    
+
     public init(JSON: NSDictionary) {
         self.JSON = JSON
     }
@@ -34,7 +34,7 @@ public struct Mapper {
 
      - returns: The value for the given field, if it can be converted to the expected type T
      */
-    
+
     public func from<T: RawRepresentable>(field: String) throws -> T {
         let object = try self.JSONFrom(field:field)
         guard let rawValue = object as? T.RawValue else {
@@ -58,7 +58,7 @@ public struct Mapper {
 
      - returns: The value for the given field, if it can be converted to the expected type T otherwise nil
      */
-    
+
     public func from<T: RawRepresentable>(field: String) -> T? {
         return try? self.from(field:field)
     }
@@ -71,7 +71,7 @@ public struct Mapper {
 
      - returns: The first non-nil value to be produced from the array of fields, or nil if none exist
      */
-    
+
     public func from<T: RawRepresentable>(fields: [String]) -> T? {
         for field in fields {
             if let value: T = try? self.from(field:field) {
@@ -99,9 +99,9 @@ public struct Mapper {
 
      - returns: An array of the RawRepresentable value, with all nils removed
      */
-    
-    public func from<T: RawRepresentable>(field: String, defaultValue: T? = nil) throws -> [T] where T.RawValue: Convertible,
-        T.RawValue == T.RawValue.ConvertedType
+
+    public func from<T: RawRepresentable>(field: String, defaultValue: T? = nil) throws -> [T]
+        where T.RawValue: Convertible, T.RawValue == T.RawValue.ConvertedType
     {
         let value = try self.JSONFrom(field:field)
         guard let array = value as? [Any] else {
@@ -111,10 +111,10 @@ public struct Mapper {
         let rawValues = try array.map { try T.RawValue.from(value:$0) }
         return rawValues.flatMap { T(rawValue: $0) ?? defaultValue }
     }
-    
+
     /**
      Get an array of RawRepresentable values from a field in the the source data.
-     
+
      - note: If T.init(rawValue:) fails given the T.RawValue from the array of source data, that value will be
      replaced by the passed defaultValue, which defaults to nil. The resulting array is flatMapped and
      all nils are removed. This means that any unrecognized values will be removed or replaced with a
@@ -122,11 +122,12 @@ public struct Mapper {
      layer doesn't know about yet.
      - parameter field:        The field to use from the source data
      - parameter defaultValue: The value to use if the rawValue initializer fails
-     - returns: An array of the RawRepresentable value, with all nils removed, returns nil if cannot be converted
+     - returns: An array of the RawRepresentable value, with all nils removed.
+                Nil if cannot be converted
      */
-    
-    public func from<T: RawRepresentable>(field: String, defaultValue: T? = nil) -> [T]? where T.RawValue: Convertible,
-        T.RawValue == T.RawValue.ConvertedType
+
+    public func from<T: RawRepresentable>(field: String, defaultValue: T? = nil) -> [T]?
+        where T.RawValue: Convertible, T.RawValue == T.RawValue.ConvertedType
     {
         if let value = try? self.JSONFrom(field:field), let array = value as? [Any] {
             let rawValues = try? array.map { try T.RawValue.from(value:$0) }
@@ -150,7 +151,7 @@ public struct Mapper {
 
      - returns: The value for the given field, if it can be converted to the expected type T
      */
-    
+
     public func from<T: Mappable>(field: String) throws -> T {
         let value = try self.JSONFrom(field:field)
         if let JSON = value as? NSDictionary {
@@ -176,7 +177,7 @@ public struct Mapper {
 
      - returns: The value for the given field, if it can be converted to the expected type [T]
      */
-    
+
     public func from<T: Mappable>(field: String) throws -> [T] {
         let value = try self.JSONFrom(field:field)
         if let JSON = value as? [NSDictionary] {
@@ -196,7 +197,7 @@ public struct Mapper {
 
      - returns: The value for the given field, if it can be converted to the expected type T otherwise nil
      */
-    
+
     public func from<T: Mappable>(field: String) -> T? {
         return try? self.from(field:field)
     }
@@ -213,7 +214,7 @@ public struct Mapper {
 
      - returns: The value for the given field, if it can be converted to the expected type [T]
      */
-    
+
     public func from<T: Mappable>(field: String) -> [T]? {
         return try? self.from(field:field)
     }
@@ -226,7 +227,7 @@ public struct Mapper {
 
      - returns: The first non-nil value to be produced from the array of fields, or nil if none exist
      */
-    
+
     public func from<T: Mappable>(fields: [String]) -> T? {
         for field in fields {
             if let value: T = try? self.from(field:field) {
@@ -251,7 +252,7 @@ public struct Mapper {
 
      - returns: The value for the given field, if it can be converted to the expected type T
      */
-    
+
     public func from<T: Convertible>(field: String) throws -> T where T == T.ConvertedType {
         return try self.from(field:field, transformation: T.from)
     }
@@ -270,7 +271,7 @@ public struct Mapper {
 
      - returns: The value for the given field, if it can be converted to the expected type [T]
      */
-    
+
     public func from<T: Convertible>(field: String) throws -> [T] where T == T.ConvertedType {
         let value = try self.JSONFrom(field:field)
         if let JSON = value as? [Any] {
@@ -290,7 +291,7 @@ public struct Mapper {
 
      - returns: The value for the given field, if it can be converted to the expected type T otherwise nil
      */
-    
+
     public func from<T: Convertible>(field: String) -> T? where T == T.ConvertedType {
         return try? self.from(field:field, transformation: T.from)
     }
@@ -305,7 +306,7 @@ public struct Mapper {
 
      - returns: The value for the given field, if it can be converted to the expected type [T]
      */
-    
+
     public func from<T: Convertible>(field: String) -> [T]? where T == T.ConvertedType {
         return try? self.from(field:field)
     }
@@ -323,7 +324,7 @@ public struct Mapper {
 
      - returns: A dictionary where the keys and values are created using their convertible implementations
      */
-    
+
     public func from<U: Convertible, T: Convertible>(field: String) throws -> [U: T]
         where U == U.ConvertedType, T == T.ConvertedType
     {
@@ -351,7 +352,7 @@ public struct Mapper {
      - returns: A dictionary where the keys and values are created using their convertible implementations or
                 nil if anything throws
      */
-    
+
     public func from<U: Convertible, T: Convertible>(field: String) -> [U: T]?
         where U == U.ConvertedType, T == T.ConvertedType
     {
@@ -366,7 +367,7 @@ public struct Mapper {
 
      - returns: The first non-nil value to be produced from the array of fields, or nil if none exist
      */
-    
+
     public func from<T: Convertible>(fields: [String]) -> T? where T == T.ConvertedType {
         for field in fields {
             if let value: T = try? self.from(field:field) {
@@ -376,37 +377,35 @@ public struct Mapper {
 
         return nil
     }
-    
+
     /**
      Get a Date from the given field in the source data
-     
+
      - parameter field: The field to retrieve from the source data
      - parameter format: A string to pass to format the date
      - throws: MapperError.missingFieldError  if the field doesn't exist
      - throws: MapperError.convertibleError if field is not a string or doesn't match the format
      initializer fails with the passed rawValue
-     
+
      - returns: The date for the given field
      */
-    public func from(field:String, format:String) throws -> Date {
+    public func from(field: String, format: String) throws -> Date {
         let value = try self.JSONFrom(field:field)
         return try Date.from(value: value, format: format)
     }
-    
-    
+
     /**
      Get a Date from the given field in the source data
-     
+
      - parameter field: The field to retrieve from the source data
      - parameter format: A string to pass to format the date
      initializer fails with the passed rawValue
-     
+
      - returns: The date for the given field, or nil if field is not a string or doesn't match the format
      */
-    public func from(field:String, format:String) -> Date? {
+    public func from(field: String, format: String) -> Date? {
         return try? self.from(field: field, format: format)
     }
-    
 
     // MARK: - Custom Transformation
 
@@ -423,7 +422,7 @@ public struct Mapper {
 
      - returns: The value of type T for the given field
      */
-    
+
     public func from<T>(field: String, transformation: (Any?) throws -> T) throws -> T {
         return try transformation(try self.JSONFrom(field:field))
     }
@@ -438,7 +437,7 @@ public struct Mapper {
      - returns: The value of type T for the given field, if the transformation function doesn't throw
                 otherwise nil
      */
-    
+
     public func optionalFrom<T>(field: String, transformation: (Any?) throws -> T?) -> T? {
         return (try? transformation(try? self.JSONFrom(field:field))).flatMap { $0 }
     }

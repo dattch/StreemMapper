@@ -82,12 +82,12 @@ final class TransformTests: XCTestCase {
             }
         }
 
-        let JSON:NSDictionary = ["examples":[
-                        ["string": "hi","value": 1],
+        let JSON: NSDictionary = ["examples":[
+                        ["string": "hi", "value": 1],
                         ["string": "bye"]
                       ]
                    ]
-        
+
         let test = try? Test(map: Mapper(JSON: JSON))
         XCTAssertNil(test)
     }
