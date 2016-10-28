@@ -296,7 +296,7 @@ struct User: Mappable {
 
 Dates can now be parsed using a formatter or a timestamp:
 
-```
+```swift
 struct User: Mappable {
   let date1: Date
   let date2: Date?
