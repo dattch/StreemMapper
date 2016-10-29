@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		C201748E1BD5509D00E4FE18 /* Mapper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C20174831BD5509D00E4FE18 /* Mapper.framework */; };
+		C201748E1BD5509D00E4FE18 /* StreemMapper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C20174831BD5509D00E4FE18 /* StreemMapper.framework */; };
 		C20586EC1CDEAD9900658A67 /* DefaultConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = C20586EB1CDEAD9900658A67 /* DefaultConvertible.swift */; };
 		C207F6E41D7F286700EBCC74 /* ConvertibleValueTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C207F6DB1D7F286700EBCC74 /* ConvertibleValueTests.swift */; };
 		C207F6E51D7F286700EBCC74 /* CustomTransformationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C207F6DC1D7F286700EBCC74 /* CustomTransformationTests.swift */; };
@@ -40,8 +40,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		C20174831BD5509D00E4FE18 /* Mapper.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Mapper.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		C201748D1BD5509D00E4FE18 /* MapperTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MapperTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C20174831BD5509D00E4FE18 /* StreemMapper.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = StreemMapper.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C201748D1BD5509D00E4FE18 /* StreemMapperTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StreemMapperTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C20586EB1CDEAD9900658A67 /* DefaultConvertible.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = DefaultConvertible.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		C207F6DB1D7F286700EBCC74 /* ConvertibleValueTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = ConvertibleValueTests.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		C207F6DC1D7F286700EBCC74 /* CustomTransformationTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTransformationTests.swift; sourceTree = "<group>"; };
@@ -72,7 +72,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C201748E1BD5509D00E4FE18 /* Mapper.framework in Frameworks */,
+				C201748E1BD5509D00E4FE18 /* StreemMapper.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -92,8 +92,8 @@
 		C20174841BD5509D00E4FE18 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				C20174831BD5509D00E4FE18 /* Mapper.framework */,
-				C201748D1BD5509D00E4FE18 /* MapperTests.xctest */,
+				C20174831BD5509D00E4FE18 /* StreemMapper.framework */,
+				C201748D1BD5509D00E4FE18 /* StreemMapperTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -161,9 +161,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		C20174821BD5509D00E4FE18 /* Mapper */ = {
+		C20174821BD5509D00E4FE18 /* StreemMapper */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = C20174971BD5509D00E4FE18 /* Build configuration list for PBXNativeTarget "Mapper" */;
+			buildConfigurationList = C20174971BD5509D00E4FE18 /* Build configuration list for PBXNativeTarget "StreemMapper" */;
 			buildPhases = (
 				C201747E1BD5509D00E4FE18 /* Sources */,
 				EBE34F191DC2EC5C0057FDD9 /* ShellScript */,
@@ -172,14 +172,14 @@
 			);
 			dependencies = (
 			);
-			name = Mapper;
+			name = StreemMapper;
 			productName = Mapper;
-			productReference = C20174831BD5509D00E4FE18 /* Mapper.framework */;
+			productReference = C20174831BD5509D00E4FE18 /* StreemMapper.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		C201748C1BD5509D00E4FE18 /* MapperTests */ = {
+		C201748C1BD5509D00E4FE18 /* StreemMapperTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = C201749A1BD5509D00E4FE18 /* Build configuration list for PBXNativeTarget "MapperTests" */;
+			buildConfigurationList = C201749A1BD5509D00E4FE18 /* Build configuration list for PBXNativeTarget "StreemMapperTests" */;
 			buildPhases = (
 				C20174891BD5509D00E4FE18 /* Sources */,
 				C201748A1BD5509D00E4FE18 /* Frameworks */,
@@ -189,9 +189,9 @@
 			dependencies = (
 				C20174901BD5509D00E4FE18 /* PBXTargetDependency */,
 			);
-			name = MapperTests;
+			name = StreemMapperTests;
 			productName = MapperTests;
-			productReference = C201748D1BD5509D00E4FE18 /* MapperTests.xctest */;
+			productReference = C201748D1BD5509D00E4FE18 /* StreemMapperTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -226,8 +226,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				C20174821BD5509D00E4FE18 /* Mapper */,
-				C201748C1BD5509D00E4FE18 /* MapperTests */,
+				C20174821BD5509D00E4FE18 /* StreemMapper */,
+				C201748C1BD5509D00E4FE18 /* StreemMapperTests */,
 			);
 		};
 /* End PBXProject section */
@@ -287,7 +287,7 @@
 /* Begin PBXTargetDependency section */
 		C20174901BD5509D00E4FE18 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = C20174821BD5509D00E4FE18 /* Mapper */;
+			target = C20174821BD5509D00E4FE18 /* StreemMapper */;
 			targetProxy = C201748F1BD5509D00E4FE18 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -394,7 +394,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.Lyft.Mapper;
-				PRODUCT_NAME = Mapper;
+				PRODUCT_NAME = StreemMapper;
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
@@ -418,7 +418,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.Lyft.Mapper;
-				PRODUCT_NAME = Mapper;
+				PRODUCT_NAME = StreemMapper;
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_VERSION = 3.0;
@@ -466,7 +466,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C20174971BD5509D00E4FE18 /* Build configuration list for PBXNativeTarget "Mapper" */ = {
+		C20174971BD5509D00E4FE18 /* Build configuration list for PBXNativeTarget "StreemMapper" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C20174981BD5509D00E4FE18 /* Debug */,
@@ -475,7 +475,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C201749A1BD5509D00E4FE18 /* Build configuration list for PBXNativeTarget "MapperTests" */ = {
+		C201749A1BD5509D00E4FE18 /* Build configuration list for PBXNativeTarget "StreemMapperTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C201749B1BD5509D00E4FE18 /* Debug */,
