@@ -32,7 +32,7 @@ test-iOS:
 	set -o pipefail && \
 		xcodebuild \
 		-project Mapper.xcodeproj \
-		-scheme Mapper \
+		-scheme StreemMapper \
 		-destination "name=iPhone 6s" \
 		test \
 		| xcpretty -ct
@@ -41,7 +41,7 @@ test-OSX:
 	set -o pipefail && \
 		xcodebuild \
 		-project Mapper.xcodeproj \
-		-scheme Mapper \
+		-scheme StreemMapper \
 		test \
 		| xcpretty -ct
 
@@ -49,14 +49,14 @@ test-tvOS:
 	set -o pipefail && \
 		xcodebuild \
 		-project Mapper.xcodeproj \
-		-scheme Mapper \
+		-scheme StreemMapper \
 		-destination "name=Apple TV 1080p" \
 		test \
 		| xcpretty -ct
 
 test-carthage:
 	carthage build --no-skip-current
-	ls Carthage/build/Mac/Mapper.framework
-	ls Carthage/build/iOS/Mapper.framework
-	ls Carthage/build/tvOS/Mapper.framework
-	ls Carthage/build/watchOS/Mapper.framework
+	ls Carthage/build/Mac/StreemMapper.framework
+	ls Carthage/build/iOS/StreemMapper.framework
+	ls Carthage/build/tvOS/StreemMapper.framework
+	ls Carthage/build/watchOS/StreemMapper.framework
