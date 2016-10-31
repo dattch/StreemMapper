@@ -60,20 +60,3 @@ test-carthage:
 	ls Carthage/build/iOS/Mapper.framework
 	ls Carthage/build/tvOS/Mapper.framework
 	ls Carthage/build/watchOS/Mapper.framework
-
-test-coverage:
-	set -o pipefail && \
-		xcodebuild \
-		-project Mapper.xcodeproj \
-		-scheme Mapper \
-		-derivedDataPath build \
-		-enableCodeCoverage YES \
-		test \
-		| xcpretty -ct
-	rm -f coverage.txt
-	Resources/coverage.sh build
-	! grep -C 10 "^\s*0" coverage.txt
-
-test-swiftpm-osx:
-	SWIFT_EXEC="/Applications/Xcode.app/Contents/Developer/Toolchains/Swift_2.3.xctoolchain/usr/bin/swiftc" \
-		swift test
