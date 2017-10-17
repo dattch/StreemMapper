@@ -1,4 +1,4 @@
-import Mapper
+@testable import StreemMapper
 import XCTest
 
 private struct Example: Mappable, Equatable {
