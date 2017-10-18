@@ -11,8 +11,8 @@ private struct Example: Mappable, Equatable {
     }
 
     init(map: Mapper) throws {
-        try key = map.from(field:"string")
-        try value = map.from(field:"value")
+        try key = map.from(field: "string")
+        try value = map.from(field: "value")
     }
 }
 
@@ -26,8 +26,7 @@ final class TransformTests: XCTestCase {
             let dictionary: [String: Example]
 
             init(map: Mapper) throws {
-                try dictionary = map.from(field:"examples",
-                    transformation: Transform.toDictionary(key: { $0.key }))
+                try dictionary = map.from(field: "examples", transformation: Transform.toDictionary(key: { $0.key }))
             }
         }
 
@@ -36,12 +35,12 @@ final class TransformTests: XCTestCase {
             [
                 [
                     "string": "hi",
-                    "value": 1,
+                    "value": 1
                 ],
                 [
                     "string": "bye",
-                    "value": 2,
-                ],
+                    "value": 2
+                ]
             ]
         ]
 
@@ -56,19 +55,18 @@ final class TransformTests: XCTestCase {
             let dictionary: [String: Example]
 
             init(map: Mapper) throws {
-                try dictionary = map.from(field:"examples",
-                    transformation: Transform.toDictionary(key: { $0.key }))
+                try dictionary = map.from(field: "examples", transformation: Transform.toDictionary(key: { $0.key }))
             }
         }
 
         do {
             _ = try Test(map: Mapper(JSON: ["examples": 1]))
-            XCTFail()
+            XCTFail("Dictionary parsing should throw")
         } catch MapperError.convertibleError(let value, let type) {
             XCTAssert(value as? Int == 1)
-            XCTAssert(type == [[AnyHashable:Any]].self)
+            XCTAssert(type == [[AnyHashable: Any]].self)
         } catch {
-            XCTFail()
+            XCTFail("Dictionary parsing throw the wrong error")
         }
     }
 
@@ -77,13 +75,12 @@ final class TransformTests: XCTestCase {
             let dictionary: [String: Example]
 
             init(map: Mapper) throws {
-                try dictionary = map.from(field:"examples",
-                    transformation: Transform.toDictionary(key: { $0.key }))
+                try dictionary = map.from(field: "examples", transformation: Transform.toDictionary(key: { $0.key }))
             }
         }
 
-        let JSON: [AnyHashable:Any] = ["examples":[
-                        ["string": "hi", "value": 1],
+        let JSON: [AnyHashable: Any] = ["examples": [
+                    ["string": "hi", "value": 1],
                         ["string": "bye"]
                       ]
                    ]
@@ -95,12 +92,12 @@ final class TransformTests: XCTestCase {
     func testMissingFieldErrorFromTransformation() {
         do {
             let map = Mapper(JSON: [:])
-            let _: String = try map.from(field:"foo", transformation: { _ in return "hi" })
-            XCTFail()
+            let _: String = try map.from(field: "foo", transformation: { _ in return "hi" })
+            XCTFail("Missing field parsing should throw")
         } catch MapperError.missingFieldError(let field) {
             XCTAssert(field == "foo")
         } catch {
-            XCTFail()
+            XCTFail("Missing field parsing threw the wrong erro")
         }
     }
 }

@@ -3,7 +3,7 @@
 /// Types in an extension in their own projects (e.g. `CGFloat`)
 import Foundation
 
-//MARK: - Default Extensions
+// MARK: - Default Extensions
 
 extension String: DefaultConvertible {}
 extension Int: DefaultConvertible {}
@@ -20,7 +20,7 @@ extension NSArray: DefaultConvertible {}
 /**
  NSDate Convertible implementation
  */
-extension Date : Convertible{
+extension Date: Convertible{
 
     /**
      Create a NSDate from Mapper
@@ -86,7 +86,7 @@ extension URL: Convertible {
 /**
  Int64 Convertible implementation
  */
-extension Int64:Convertible{
+extension Int64: Convertible{
 
     /**
      Create a Int64 from Mapper
@@ -106,7 +106,7 @@ extension Int64:Convertible{
 /**
  UInt64 Convertible implementation
  */
-extension UInt64:Convertible{
+extension UInt64: Convertible{
 
     /**
      Create a UInt64 from Mapper
@@ -126,7 +126,7 @@ extension UInt64:Convertible{
 /**
  Int32 Convertible implementation
  */
-extension Int32:Convertible{
+extension Int32: Convertible{
 
     /**
      Create a Int32 from Mapper
@@ -146,7 +146,7 @@ extension Int32:Convertible{
 /**
  UInt32 Convertible implementation
  */
-extension UInt32:Convertible{
+extension UInt32: Convertible{
 
     /**
      Create a UInt32 from Mapper
@@ -166,7 +166,7 @@ extension UInt32:Convertible{
 /**
  Int16 Convertible implementation
  */
-extension Int16:Convertible{
+extension Int16: Convertible{
 
     /**
      Create a Int16 from Mapper
@@ -186,7 +186,7 @@ extension Int16:Convertible{
 /**
  UInt16 Convertible implementation
  */
-extension UInt16:Convertible{
+extension UInt16: Convertible{
 
     /**
      Create a UInt16 from Mapper
@@ -206,7 +206,7 @@ extension UInt16:Convertible{
 /**
  Int8 Convertible implementation
  */
-extension Int8:Convertible{
+extension Int8: Convertible{
 
     /**
      Create a Int8 from Mapper
@@ -226,7 +226,7 @@ extension Int8:Convertible{
 /**
  UInt8 Convertible implementation
  */
-extension UInt8:Convertible{
+extension UInt8: Convertible{
 
     /**
      Create a UInt8 from Mapper

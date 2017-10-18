@@ -50,8 +50,8 @@ public extension Transform {
         (_ object: Any?) throws -> [U: T] where T: Mappable, U: Hashable
     {
         return { object in
-            guard let objects = object as? [[AnyHashable:Any]] else {
-                throw MapperError.convertibleError(value: object, type: [[AnyHashable:Any]].self)
+            guard let objects = object as? [[AnyHashable: Any]] else {
+                throw MapperError.convertibleError(value: object, type: [[AnyHashable: Any]].self)
             }
 
             var dictionary: [U: T] = [:]

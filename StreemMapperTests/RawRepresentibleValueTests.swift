@@ -6,12 +6,12 @@ final class RawRepresentibleValueTests: XCTestCase {
         struct Test: Mappable {
             let suit: Suits
             init(map: Mapper) throws {
-                try self.suit = map.from(field:"suit")
+                try self.suit = map.from(field: "suit")
             }
         }
 
         enum Suits: String {
-            case Hearts = "hearts"
+            case hearts
         }
 
         let test = try? Test(map: Mapper(JSON: ["suit": "hearts"]))
@@ -22,7 +22,7 @@ final class RawRepresentibleValueTests: XCTestCase {
         struct Test: Mappable {
             let value: Value
             init(map: Mapper) throws {
-                try self.value = map.from(field:"value")
+                try self.value = map.from(field: "value")
             }
         }
 
@@ -38,7 +38,7 @@ final class RawRepresentibleValueTests: XCTestCase {
         struct Test: Mappable {
             let value: Value
             init(map: Mapper) throws {
-                try self.value = map.from(field:"value")
+                try self.value = map.from(field: "value")
             }
         }
 
@@ -54,7 +54,7 @@ final class RawRepresentibleValueTests: XCTestCase {
         struct Test: Mappable {
             let value: Value?
             init(map: Mapper) {
-                self.value = map.from(field:"value")
+                self.value = map.from(field: "value")
             }
         }
 
@@ -70,7 +70,7 @@ final class RawRepresentibleValueTests: XCTestCase {
         struct Test: Mappable {
             let value: Value?
             init(map: Mapper) {
-                self.value = map.from(field:"value")
+                self.value = map.from(field: "value")
             }
         }
 
@@ -86,7 +86,7 @@ final class RawRepresentibleValueTests: XCTestCase {
         struct Test: Mappable {
             let value: Value?
             init(map: Mapper) {
-                self.value = map.from(field:"value")
+                self.value = map.from(field: "value")
             }
         }
 
@@ -102,28 +102,28 @@ final class RawRepresentibleValueTests: XCTestCase {
         struct Test: Mappable {
             let value: Value?
             init(map: Mapper) {
-                self.value = map.from(fields:["a", "b"])
+                self.value = map.from(fields: ["a", "b"])
             }
         }
 
         enum Value: String {
-            case First = "hi"
+            case first = "hi"
         }
 
         let test = Test(map: Mapper(JSON: ["a": "nope", "b": "hi"]))
-        XCTAssertTrue(test.value == .First)
+        XCTAssertTrue(test.value == .first)
     }
 
     func testRawRepresentableArrayOfKeysReturningNil() {
         struct Test: Mappable {
             let value: Value?
             init(map: Mapper) {
-                self.value = map.from(fields:["a", "b"])
+                self.value = map.from(fields: ["a", "b"])
             }
         }
 
         enum Value: String {
-            case First = "hi"
+            case first = "hi"
         }
 
         let test = Test(map: Mapper(JSON: [:]))
@@ -134,12 +134,12 @@ final class RawRepresentibleValueTests: XCTestCase {
         struct Test: Mappable {
             let value: [Value]
             init(map: Mapper) throws {
-                self.value = try map.from(field:"a")
+                self.value = try map.from(field: "a")
             }
         }
 
         enum Value: String {
-            case First = "hi"
+            case first = "hi"
         }
 
         do {
@@ -156,12 +156,12 @@ final class RawRepresentibleValueTests: XCTestCase {
         struct Test: Mappable {
             let values: [Value]
             init(map: Mapper) throws {
-                self.values = try map.from(field:"a")
+                self.values = try map.from(field: "a")
             }
         }
 
         enum Value: String {
-            case First = "hi"
+            case first = "hi"
         }
 
         do {
@@ -180,12 +180,12 @@ final class RawRepresentibleValueTests: XCTestCase {
         struct Test: Mappable {
             let values: [Value]
             init(map: Mapper) throws {
-                self.values = try map.from(field:"a")
+                self.values = try map.from(field: "a")
             }
         }
 
         enum Value: String {
-            case First = "hi"
+            case first = "hi"
         }
 
         do {
@@ -203,18 +203,18 @@ final class RawRepresentibleValueTests: XCTestCase {
         struct Test: Mappable {
             let values: [Value]
             init(map: Mapper) throws {
-                self.values = try map.from(field:"a")
+                self.values = try map.from(field: "a")
             }
         }
 
         enum Value: String {
-            case First = "hi"
+            case first = "hi"
         }
 
         do {
             let test = try Test(map: Mapper(JSON: ["a": ["hi", "invalid"]]))
             XCTAssertEqual(test.values.count, 1)
-            XCTAssert(test.values.contains(.First))
+            XCTAssert(test.values.contains(.first))
         } catch let error {
             XCTFail("Expected no errors, got \(error)")
         }
@@ -224,18 +224,18 @@ final class RawRepresentibleValueTests: XCTestCase {
         struct Test: Mappable {
             let values: [Value]
             init(map: Mapper) throws {
-                self.values = try map.from(field:"a", defaultValue: .First)
+                self.values = try map.from(field: "a", defaultValue: .first)
             }
         }
 
         enum Value: String {
-            case First = "hi"
+            case first = "hi"
         }
 
         do {
             let test = try Test(map: Mapper(JSON: ["a": ["invalid"]]))
             XCTAssertEqual(test.values.count, 1)
-            XCTAssert(test.values.contains(.First))
+            XCTAssert(test.values.contains(.first))
         } catch let error {
             XCTFail("Expected no errors, got \(error)")
         }
@@ -245,12 +245,12 @@ final class RawRepresentibleValueTests: XCTestCase {
         struct Test: Mappable {
             let values: [Value]?
             init(map: Mapper) throws {
-                self.values = map.from(field:"a")
+                self.values = map.from(field: "a")
             }
         }
 
         enum Value: String {
-            case First = "hi"
+            case first = "hi"
         }
 
         let test = try? Test(map: Mapper(JSON: ["a": 1]))

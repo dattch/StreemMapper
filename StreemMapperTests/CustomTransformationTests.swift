@@ -6,7 +6,7 @@ final class CustomTransformationTests: XCTestCase {
         struct Test: Mappable {
             let value: Int
             init(map: Mapper) throws {
-                value = try map.from(field:"value", transformation: { thing in
+                value = try map.from(field: "value", transformation: { thing in
                     if let a = thing as? Int {
                         return a + 1
                     } else {
@@ -24,7 +24,7 @@ final class CustomTransformationTests: XCTestCase {
         struct Test: Mappable {
             let value: Int
             init(map: Mapper) throws {
-                try value = map.from(field:"foo", transformation: { object in
+                try value = map.from(field: "foo", transformation: { _ in
                     throw MapperError.customError(field: nil, message: "")
                 })
             }
@@ -38,7 +38,7 @@ final class CustomTransformationTests: XCTestCase {
         struct Test: Mappable {
             let string: String?
             init(map: Mapper) {
-                string = map.optionalFrom(field:"string", transformation: { $0 as? String })
+                string = map.optionalFrom(field: "string", transformation: { $0 as? String })
             }
         }
 
@@ -50,7 +50,7 @@ final class CustomTransformationTests: XCTestCase {
         struct Test: Mappable {
             let string: String?
             init(map: Mapper) {
-                string = map.optionalFrom(field:"string", transformation: { $0 as? String })
+                string = map.optionalFrom(field: "string", transformation: { $0 as? String })
             }
         }
 
@@ -62,7 +62,7 @@ final class CustomTransformationTests: XCTestCase {
         struct Test: Mappable {
             let string: String?
             init(map: Mapper) throws {
-                string = map.optionalFrom(field:"foo", transformation: { _ in
+                string = map.optionalFrom(field: "foo", transformation: { _ in
                     throw MapperError.customError(field: nil, message: "")
                 })
             }

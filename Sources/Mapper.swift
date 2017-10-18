@@ -5,7 +5,7 @@ import Foundation
  the Mappable protocol (see `Mappable` for an example).
  */
 public struct Mapper {
-    fileprivate let JSON: [AnyHashable:Any]
+    fileprivate let JSON: [AnyHashable: Any]
 
     /**
      Create a Mapper with a NSDictionary to use as source data
@@ -13,7 +13,7 @@ public struct Mapper {
      - parameter JSON: The dictionary to use for the data
      */
 
-    public init(JSON: [AnyHashable:Any]) {
+    public init(JSON: [AnyHashable: Any]) {
         self.JSON = JSON
     }
 
@@ -36,7 +36,7 @@ public struct Mapper {
      */
 
     public func from<T: RawRepresentable>(field: String) throws -> T {
-        let object = try self.JSONFrom(field:field)
+        let object = try self.JSONFrom(field: field)
         guard let rawValue = object as? T.RawValue else {
             throw MapperError.typeMismatchError(field: field, value: object, type: T.RawValue.self)
         }
@@ -60,7 +60,7 @@ public struct Mapper {
      */
 
     public func from<T: RawRepresentable>(field: String) -> T? {
-        return try? self.from(field:field)
+        return try? self.from(field: field)
     }
 
     /**
@@ -74,7 +74,7 @@ public struct Mapper {
 
     public func from<T: RawRepresentable>(fields: [String]) -> T? {
         for field in fields {
-            if let value: T = try? self.from(field:field) {
+            if let value: T = try? self.from(field: field) {
                 return value
             }
         }
@@ -103,12 +103,12 @@ public struct Mapper {
     public func from<T: RawRepresentable>(field: String, defaultValue: T? = nil) throws -> [T]
         where T.RawValue: Convertible, T.RawValue == T.RawValue.ConvertedType
     {
-        let value = try self.JSONFrom(field:field)
+        let value = try self.JSONFrom(field: field)
         guard let array = value as? [Any] else {
             throw MapperError.typeMismatchError(field: field, value: value, type: [Any].self)
         }
 
-        let rawValues = try array.map { try T.RawValue.from(value:$0) }
+        let rawValues = try array.map { try T.RawValue.from(value: $0) }
         return rawValues.flatMap { T(rawValue: $0) ?? defaultValue }
     }
 
@@ -129,8 +129,8 @@ public struct Mapper {
     public func from<T: RawRepresentable>(field: String, defaultValue: T? = nil) -> [T]?
         where T.RawValue: Convertible, T.RawValue == T.RawValue.ConvertedType
     {
-        if let value = try? self.JSONFrom(field:field), let array = value as? [Any] {
-            let rawValues = try? array.map { try T.RawValue.from(value:$0) }
+        if let value = try? self.JSONFrom(field: field), let array = value as? [Any] {
+            let rawValues = try? array.map { try T.RawValue.from(value: $0) }
             return rawValues?.flatMap { T(rawValue: $0) ?? defaultValue }
         }
         return nil
@@ -153,12 +153,12 @@ public struct Mapper {
      */
 
     public func from<T: Mappable>(field: String) throws -> T {
-        let value = try self.JSONFrom(field:field)
-        if let JSON = value as? [AnyHashable:Any] {
+        let value = try self.JSONFrom(field: field)
+        if let JSON = value as? [AnyHashable: Any] {
             return try T(map: Mapper(JSON: JSON))
         }
 
-        throw MapperError.typeMismatchError(field: field, value: value, type: [AnyHashable:Any].self)
+        throw MapperError.typeMismatchError(field: field, value: value, type: [AnyHashable: Any].self)
     }
 
     /**
@@ -179,12 +179,12 @@ public struct Mapper {
      */
 
     public func from<T: Mappable>(field: String) throws -> [T] {
-        let value = try self.JSONFrom(field:field)
-        if let JSON = value as? [[AnyHashable:Any]] {
+        let value = try self.JSONFrom(field: field)
+        if let JSON = value as? [[AnyHashable: Any]] {
             return try JSON.map { try T(map: Mapper(JSON: $0)) }
         }
 
-        throw MapperError.typeMismatchError(field: field, value: value, type: [[AnyHashable:Any]].self)
+        throw MapperError.typeMismatchError(field: field, value: value, type: [[AnyHashable: Any]].self)
     }
 
     /**
@@ -199,7 +199,7 @@ public struct Mapper {
      */
 
     public func from<T: Mappable>(field: String) -> T? {
-        return try? self.from(field:field)
+        return try? self.from(field: field)
     }
 
     /**
@@ -216,7 +216,7 @@ public struct Mapper {
      */
 
     public func from<T: Mappable>(field: String) -> [T]? {
-        return try? self.from(field:field)
+        return try? self.from(field: field)
     }
 
     /**
@@ -230,7 +230,7 @@ public struct Mapper {
 
     public func from<T: Mappable>(fields: [String]) -> T? {
         for field in fields {
-            if let value: T = try? self.from(field:field) {
+            if let value: T = try? self.from(field: field) {
                 return value
             }
         }
@@ -254,7 +254,7 @@ public struct Mapper {
      */
 
     public func from<T: Convertible>(field: String) throws -> T where T == T.ConvertedType {
-        return try self.from(field:field, transformation: T.from)
+        return try self.from(field: field, transformation: T.from)
     }
 
     /**
@@ -273,7 +273,7 @@ public struct Mapper {
      */
 
     public func from<T: Convertible>(field: String) throws -> [T] where T == T.ConvertedType {
-        let value = try self.JSONFrom(field:field)
+        let value = try self.JSONFrom(field: field)
         if let JSON = value as? [Any] {
             return try JSON.map(T.from)
         }
@@ -293,7 +293,7 @@ public struct Mapper {
      */
 
     public func from<T: Convertible>(field: String) -> T? where T == T.ConvertedType {
-        return try? self.from(field:field, transformation: T.from)
+        return try? self.from(field: field, transformation: T.from)
     }
 
     /**
@@ -308,7 +308,7 @@ public struct Mapper {
      */
 
     public func from<T: Convertible>(field: String) -> [T]? where T == T.ConvertedType {
-        return try? self.from(field:field)
+        return try? self.from(field: field)
     }
 
     /**
@@ -328,14 +328,14 @@ public struct Mapper {
     public func from<U: Convertible, T: Convertible>(field: String) throws -> [U: T]
         where U == U.ConvertedType, T == T.ConvertedType
     {
-        let object = try self.JSONFrom(field:field)
-        guard let data = object as? [AnyHashable:Any] else {
-            throw MapperError.typeMismatchError(field: field, value: object, type: [AnyHashable:Any].self)
+        let object = try self.JSONFrom(field: field)
+        guard let data = object as? [AnyHashable: Any] else {
+            throw MapperError.typeMismatchError(field: field, value: object, type: [AnyHashable: Any].self)
         }
 
         var result = [U: T]()
         for (key, value) in data {
-            result[try U.from(value:key)] = try T.from(value:value)
+            result[try U.from(value: key)] = try T.from(value: value)
         }
 
         return result
@@ -354,10 +354,9 @@ public struct Mapper {
      */
 
     public func from<U: Convertible, T: Convertible>(field: String) -> [U: T]? where U == U.ConvertedType, T == T.ConvertedType {
-        return try? self.from(field:field)
+        return try? self.from(field: field)
     }
-    
-    
+
     /**
      Get a dictionary of Mappable values from a field in the source data
      
@@ -371,21 +370,21 @@ public struct Mapper {
      
      - returns: A dictionary where the keys and values are created using their convertible and mappable implementations
      */
-    
+
     public func from<U: Convertible, T: Mappable>(field: String) throws -> [U: T]  where U == U.ConvertedType {
-        let object = try self.JSONFrom(field:field)
-        guard let data = object as? [AnyHashable:[AnyHashable:Any]] else {
-            throw MapperError.typeMismatchError(field: field, value: object, type: [AnyHashable:Any].self)
+        let object = try self.JSONFrom(field: field)
+        guard let data = object as? [AnyHashable: [AnyHashable: Any]] else {
+            throw MapperError.typeMismatchError(field: field, value: object, type: [AnyHashable: Any].self)
         }
-        
+
         var result = [U: T]()
         for (key, value) in data {
-            result[try U.from(value:key)] = try T(map: Mapper(JSON: value))
+            result[try U.from(value: key)] = try T(map: Mapper(JSON: value))
         }
-        
+
         return result
     }
-    
+
     /**
      Get an optional dictionary of Mappable values from a field in the source data
      
@@ -397,9 +396,9 @@ public struct Mapper {
      - returns: A dictionary where the keys and values are created using their convertible and mappable implementations or
      nil if anything throws
      */
-    
+
     public func from<U: Convertible, T: Mappable>(field: String) -> [U: T]? where U == U.ConvertedType {
-        return try? self.from(field:field)
+        return try? self.from(field: field)
     }
 
     /**
@@ -413,7 +412,7 @@ public struct Mapper {
 
     public func from<T: Convertible>(fields: [String]) -> T? where T == T.ConvertedType {
         for field in fields {
-            if let value: T = try? self.from(field:field) {
+            if let value: T = try? self.from(field: field) {
                 return value
             }
         }
@@ -433,7 +432,7 @@ public struct Mapper {
      - returns: The date for the given field
      */
     public func from(field: String, format: String) throws -> Date {
-        let value = try self.JSONFrom(field:field)
+        let value = try self.JSONFrom(field: field)
         return try Date.from(value: value, format: format)
     }
 
@@ -467,7 +466,7 @@ public struct Mapper {
      */
 
     public func from<T>(field: String, transformation: (Any?) throws -> T) throws -> T {
-        return try transformation(try self.JSONFrom(field:field))
+        return try transformation(try self.JSONFrom(field: field))
     }
 
     /**
@@ -482,7 +481,7 @@ public struct Mapper {
      */
 
     public func optionalFrom<T>(field: String, transformation: (Any?) throws -> T?) -> T? {
-        return (try? transformation(try? self.JSONFrom(field:field))).flatMap { $0 }
+        return (try? transformation(try? self.JSONFrom(field: field))).flatMap { $0 }
     }
 
     // MARK: - Private
@@ -499,7 +498,7 @@ public struct Mapper {
      - returns: The object for the given field
      */
     fileprivate func JSONFrom(field: String) throws -> Any {
-        if let value = field.isEmpty ? self.JSON : self.JSON.safeValueWith(keyPath:field) {
+        if let value = field.isEmpty ? self.JSON : self.JSON.safeValueWith(keyPath: field) {
             return value
         }
 

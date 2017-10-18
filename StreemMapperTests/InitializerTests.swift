@@ -7,7 +7,7 @@ private struct TestExtension {
 
 extension TestExtension: Mappable {
     init(map: Mapper) throws {
-        try self.string = map.from(field:"string")
+        try self.string = map.from(field: "string")
     }
 }
 
@@ -19,7 +19,7 @@ final class InitializerTests: XCTestCase {
         struct Test: Mappable {
             let string: String
             init(map: Mapper) throws {
-                try self.string = map.from(field:"foo")
+                try self.string = map.from(field: "foo")
             }
         }
 
@@ -31,7 +31,7 @@ final class InitializerTests: XCTestCase {
         struct Test: Mappable {
             let string: String
             init(map: Mapper) throws {
-                try self.string = map.from(field:"string")
+                try self.string = map.from(field: "string")
             }
         }
 
@@ -45,7 +45,7 @@ final class InitializerTests: XCTestCase {
         struct Test: Mappable {
             let string: String
             init(map: Mapper) throws {
-                try self.string = map.from(field:"string")
+                try self.string = map.from(field: "string")
             }
         }
 
@@ -57,7 +57,7 @@ final class InitializerTests: XCTestCase {
         struct Test: Mappable {
             let string: String
             init(map: Mapper) throws {
-                try self.string = map.from(field:"string")
+                try self.string = map.from(field: "string")
             }
         }
 
@@ -69,7 +69,7 @@ final class InitializerTests: XCTestCase {
         struct Test: Mappable {
             let string: String
             init(map: Mapper) throws {
-                try self.string = map.from(field:"string")
+                try self.string = map.from(field: "string")
             }
         }
 
