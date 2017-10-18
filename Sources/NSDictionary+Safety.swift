@@ -1,6 +1,6 @@
 import Foundation
 
-extension NSDictionary {
+extension Dictionary where Key == AnyHashable {
     func safeValueWith(keyPath: String) -> Any? {
         var object: Any? = self
         var keys = keyPath.characters.split(separator: ".").map(String.init)

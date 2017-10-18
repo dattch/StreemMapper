@@ -182,4 +182,25 @@ final class MappableValueTests: XCTestCase {
         XCTAssertEqual(tests?.count, 3)
         XCTAssertEqual(tests?[2].value, 3)
     }
+    
+    func testMappableDict(){
+        struct Test: Mappable {
+            let nests: [String:Nested]?
+            init(map: Mapper) {
+                self.nests = map.from(field:"nests")
+            }
+        }
+        
+        struct Nested: Mappable {
+            let string: String
+            init(map: Mapper) throws {
+                try self.string = map.from(field:"string")
+            }
+        }
+        let test = Test(map: Mapper(JSON: ["nests":["#1":["string": "blah"],"#2":["string": "tada"]]]))
+        
+        XCTAssertTrue(test.nests?.count == 2)
+        XCTAssertEqual(test.nests?["#1"]?.string, "blah")
+        XCTAssertEqual(test.nests?["#2"]?.string, "tada")
+    }
 }

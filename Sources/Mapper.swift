@@ -5,7 +5,7 @@ import Foundation
  the Mappable protocol (see `Mappable` for an example).
  */
 public struct Mapper {
-    fileprivate let JSON: NSDictionary
+    fileprivate let JSON: [AnyHashable:Any]
 
     /**
      Create a Mapper with a NSDictionary to use as source data
@@ -13,7 +13,7 @@ public struct Mapper {
      - parameter JSON: The dictionary to use for the data
      */
 
-    public init(JSON: NSDictionary) {
+    public init(JSON: [AnyHashable:Any]) {
         self.JSON = JSON
     }
 
@@ -154,11 +154,11 @@ public struct Mapper {
 
     public func from<T: Mappable>(field: String) throws -> T {
         let value = try self.JSONFrom(field:field)
-        if let JSON = value as? NSDictionary {
+        if let JSON = value as? [AnyHashable:Any] {
             return try T(map: Mapper(JSON: JSON))
         }
 
-        throw MapperError.typeMismatchError(field: field, value: value, type: NSDictionary.self)
+        throw MapperError.typeMismatchError(field: field, value: value, type: [AnyHashable:Any].self)
     }
 
     /**
@@ -180,11 +180,11 @@ public struct Mapper {
 
     public func from<T: Mappable>(field: String) throws -> [T] {
         let value = try self.JSONFrom(field:field)
-        if let JSON = value as? [NSDictionary] {
+        if let JSON = value as? [[AnyHashable:Any]] {
             return try JSON.map { try T(map: Mapper(JSON: $0)) }
         }
 
-        throw MapperError.typeMismatchError(field: field, value: value, type: [NSDictionary].self)
+        throw MapperError.typeMismatchError(field: field, value: value, type: [[AnyHashable:Any]].self)
     }
 
     /**
@@ -329,8 +329,8 @@ public struct Mapper {
         where U == U.ConvertedType, T == T.ConvertedType
     {
         let object = try self.JSONFrom(field:field)
-        guard let data = object as? NSDictionary else {
-            throw MapperError.typeMismatchError(field: field, value: object, type: NSDictionary.self)
+        guard let data = object as? [AnyHashable:Any] else {
+            throw MapperError.typeMismatchError(field: field, value: object, type: [AnyHashable:Any].self)
         }
 
         var result = [U: T]()
@@ -353,9 +353,52 @@ public struct Mapper {
                 nil if anything throws
      */
 
-    public func from<U: Convertible, T: Convertible>(field: String) -> [U: T]?
-        where U == U.ConvertedType, T == T.ConvertedType
-    {
+    public func from<U: Convertible, T: Convertible>(field: String) -> [U: T]? where U == U.ConvertedType, T == T.ConvertedType {
+        return try? self.from(field:field)
+    }
+    
+    
+    /**
+     Get a dictionary of Mappable values from a field in the source data
+     
+     This transparently converts a source dictionary to a dictionary of Convertible:Mappable types
+     
+     - parameter field: The field to retrieve from the source data, can be an empty string to return the
+     entire data set
+     
+     - throws: MapperError.TypeMismatchError if the value for the given field isn't a NSDictionary
+     - throws: Any error produced by the Convertible implementation of either expected type
+     
+     - returns: A dictionary where the keys and values are created using their convertible and mappable implementations
+     */
+    
+    public func from<U: Convertible, T: Mappable>(field: String) throws -> [U: T]  where U == U.ConvertedType {
+        let object = try self.JSONFrom(field:field)
+        guard let data = object as? [AnyHashable:[AnyHashable:Any]] else {
+            throw MapperError.typeMismatchError(field: field, value: object, type: [AnyHashable:Any].self)
+        }
+        
+        var result = [U: T]()
+        for (key, value) in data {
+            result[try U.from(value:key)] = try T(map: Mapper(JSON: value))
+        }
+        
+        return result
+    }
+    
+    /**
+     Get an optional dictionary of Mappable values from a field in the source data
+     
+     This transparently converts a source dictionary to a dictionary of Convertible:Mappable types
+     
+     - parameter field: The field to retrieve from the source data, can be an empty string to return the
+     entire data set
+     
+     - returns: A dictionary where the keys and values are created using their convertible and mappable implementations or
+     nil if anything throws
+     */
+    
+    public func from<U: Convertible, T: Mappable>(field: String) -> [U: T]? where U == U.ConvertedType {
         return try? self.from(field:field)
     }
 

@@ -66,7 +66,7 @@ final class TransformTests: XCTestCase {
             XCTFail()
         } catch MapperError.convertibleError(let value, let type) {
             XCTAssert(value as? Int == 1)
-            XCTAssert(type == [NSDictionary].self)
+            XCTAssert(type == [[AnyHashable:Any]].self)
         } catch {
             XCTFail()
         }
@@ -82,7 +82,7 @@ final class TransformTests: XCTestCase {
             }
         }
 
-        let JSON: NSDictionary = ["examples":[
+        let JSON: [AnyHashable:Any] = ["examples":[
                         ["string": "hi", "value": 1],
                         ["string": "bye"]
                       ]
