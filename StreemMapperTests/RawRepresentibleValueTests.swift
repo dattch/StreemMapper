@@ -15,7 +15,7 @@ final class RawRepresentibleValueTests: XCTestCase {
         }
 
         let test = try? Test(map: Mapper(JSON: ["suit": "hearts"]))
-        XCTAssertTrue(test?.suit == .Hearts)
+        XCTAssertTrue(test?.suit == .hearts)
     }
 
     func testRawRepresentableNumber() {
