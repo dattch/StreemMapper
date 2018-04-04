@@ -46,13 +46,13 @@ public func |> <T: Convertible>(map: Mapper, key: String) -> [T]? where T == T.C
     return map.from(field: key)
 }
 
-public func |> <U: Convertible, T: Convertible>(map: Mapper, key: String) -> [U:T]?
+public func |> <U: Convertible, T: Convertible>(map: Mapper, key: String) -> [U: T]?
     where U == U.ConvertedType, T == T.ConvertedType
 {
     return map.from(field: key)
 }
 
-public func |> <U: Convertible, T: Convertible>(map: Mapper, key: String) throws -> [U:T]
+public func |> <U: Convertible, T: Convertible>(map: Mapper, key: String) throws -> [U: T]
     where U == U.ConvertedType, T == T.ConvertedType
 {
     return try map.from(field: key)
@@ -82,4 +82,12 @@ public func |> <T: Mappable>(map: Mapper, key: String) throws -> [T] {
 
 public func |> <T: Mappable>(map: Mapper, key: String) -> [T]? {
     return map.from(field: key)
+}
+
+public func |> <U: Convertible, T: Mappable>(map: Mapper, key: String) -> [U: T]? where U == U.ConvertedType{
+    return map.from(field: key)
+}
+
+public func |> <U: Convertible, T: Mappable>(map: Mapper, key: String) throws -> [U: T] where U == U.ConvertedType{
+    return try map.from(field: key)
 }
