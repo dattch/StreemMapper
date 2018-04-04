@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name                      = "StreemMapper"
-  s.version                   = "7.1.1"
+  s.version                   = "7.2.0"
   s.summary                   = "A JSON deserialization library for Swift"
   s.homepage                  = "https://github.com/JustaLab/StreemMapper"
   s.license                   = "Apache License, Version 2.0"
