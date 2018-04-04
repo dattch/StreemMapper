@@ -56,10 +56,10 @@ public extension Array where Element: Mappable{
 
     public static func from(JSON: Any, rootKey: String? = nil) -> [Element]? {
         if let inputArray = JSON as? [[AnyHashable: Any]] {
-            return inputArray.map({ try? Element(map: Mapper(JSON: $0))}).flatMap({$0})
+            return inputArray.map({ try? Element(map: Mapper(JSON: $0))}).compactMap({$0})
         } else if let rootKey = rootKey, let inputDict = JSON as? [AnyHashable: Any] {
             if let array = inputDict.safeValueWith(keyPath: rootKey) as? [[AnyHashable: Any]]{
-                return array.map({ try? Element(map: Mapper(JSON: $0))}).flatMap({$0})
+                return array.map({ try? Element(map: Mapper(JSON: $0))}).compactMap({$0})
             }
         }
         return nil

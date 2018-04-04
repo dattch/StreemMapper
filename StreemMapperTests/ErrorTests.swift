@@ -1,5 +1,5 @@
-@testable import StreemMapper
 import XCTest
+@testable import StreemMapper
 
 final class ErrorTests: XCTestCase {
     func testTypeMismatch() {

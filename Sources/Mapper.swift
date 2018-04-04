@@ -109,7 +109,7 @@ public struct Mapper {
         }
 
         let rawValues = try array.map { try T.RawValue.from(value: $0) }
-        return rawValues.flatMap { T(rawValue: $0) ?? defaultValue }
+        return rawValues.compactMap { T(rawValue: $0) ?? defaultValue }
     }
 
     /**
@@ -131,7 +131,7 @@ public struct Mapper {
     {
         if let value = try? self.JSONFrom(field: field), let array = value as? [Any] {
             let rawValues = try? array.map { try T.RawValue.from(value: $0) }
-            return rawValues?.flatMap { T(rawValue: $0) ?? defaultValue }
+            return rawValues?.compactMap { T(rawValue: $0) ?? defaultValue }
         }
         return nil
     }
