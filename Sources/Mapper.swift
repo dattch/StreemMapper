@@ -1,10 +1,29 @@
 import Foundation
 
+
+extension Dictionary {
+    var json: String? {
+        do {
+            let jsonData = try JSONSerialization.data(withJSONObject: self, options: .prettyPrinted)
+            return String(bytes: jsonData, encoding: String.Encoding.utf8)
+        } catch {
+            return nil
+        }
+    }
+    
+}
 /**
  Mapper creates strongly typed objects from a given NSDictionary based on the mapping provided by implementing
  the Mappable protocol (see `Mappable` for an example).
  */
 public struct Mapper {
+    
+    public var json: String? {
+        get {
+            return JSON.json
+        }
+    }
+    
     fileprivate let JSON: [AnyHashable: Any]
 
     /**
