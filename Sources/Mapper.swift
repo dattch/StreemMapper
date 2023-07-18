@@ -200,7 +200,13 @@ public struct Mapper {
     public func from<T: Mappable>(field: String) throws -> [T] {
         let value = try self.JSONFrom(field: field)
         if let JSON = value as? [[AnyHashable: Any]] {
-            return try JSON.map { try T(map: Mapper(JSON: $0)) }
+            return JSON.compactMap {
+                do {
+                    return try T(map: Mapper(JSON: $0))
+                } catch {
+                    return nil
+                }
+            }
         }
 
         throw MapperError.typeMismatchError(field: field, value: value, type: [[AnyHashable: Any]].self)
